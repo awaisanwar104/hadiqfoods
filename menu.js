@@ -2,7 +2,8 @@
 // approved menu design, then wires them to the cart (cart.js).
 //
 // The sheet has two tabs, read by name: "Menu" (one row per dish) and "Categories".
-// If the sheet can't be reached, the last menu this browser saw is used, then menu-data.json.
+// The last menu this browser saw is shown instantly while the sheet loads; menu-data.json is
+// the fallback when neither is available.
 (function () {
   var SHEET_ID = '1PNL5b2Qzfl7m1DxCXHavSzkez84Lcp0oKluZXymbZC4';
   var CACHE_KEY = 'hadiq_menu_v1';
@@ -50,21 +51,17 @@
       return o;
     });
   }
-  function load() {
+  function fetchSheet() {
     return Promise.all([fetchText(sheetUrl('Menu')), fetchText(sheetUrl('Categories'))])
       .then(function (t) {
         var data = { Menu: parseCsv(t[0]), Categories: parseCsv(t[1]) };
         if (!data.Menu.length || !('Name' in data.Menu[0])) throw new Error('unexpected sheet format');
         try { localStorage.setItem(CACHE_KEY, JSON.stringify(data)); } catch (e) {}
         return data;
-      })
-      .catch(function () {
-        try {
-          var cached = JSON.parse(localStorage.getItem(CACHE_KEY));
-          if (cached) return cached;
-        } catch (e) {}
-        return fetchText('menu-data.json').then(JSON.parse);
       });
+  }
+  function cachedMenu() {
+    try { return JSON.parse(localStorage.getItem(CACHE_KEY)); } catch (e) { return null; }
   }
 
   // ---------- Data ----------
@@ -334,11 +331,22 @@
   renderAddress();
 
   // ---------- Go ----------
-  load().then(function (data) {
+  // Show the menu this browser saw last time straight away (if any), then refresh it from the sheet.
+  // The skeleton loader in menu.html stays until the first render.
+  var shown = false;
+  function show(data) {
     prepare(data);
     renderNav();
     render();
-  }).catch(function () {
+    shown = true;
+  }
+  function failed() {
     root.innerHTML = '<div class="py-16 text-center text-on-surface-variant">Sorry, the menu could not be loaded. Please refresh, or order on WhatsApp: <a class="text-primary font-bold" href="https://wa.me/923000341185">0300-0341185</a>.</div>';
+    if (nav) nav.innerHTML = '';
+  }
+  var cached = cachedMenu();
+  if (cached) show(cached);
+  fetchSheet().then(show).catch(function () {
+    if (!shown) fetchText('menu-data.json').then(JSON.parse).then(show).catch(failed);
   });
 })();
