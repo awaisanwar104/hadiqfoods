@@ -1,0 +1,590 @@
+<!DOCTYPE html>
+
+<html lang="en"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0" name="viewport"/><meta content="web_standard" name="shell-type"/><link href="https://fonts.googleapis.com" rel="preconnect"/><link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/><link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&amp;family=Plus+Jakarta+Sans:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/><style>@layer base{html,body{margin:0;padding:0;}body{overscroll-behavior:none;}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}</style><script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script><script id="tailwind-config">
+  tailwind.config = {
+    darkMode: "class",
+    theme: {
+      extend: {
+        "colors": {
+          "surface-container": "#efeeea",
+          "background": "#fbf9f5",
+          "tertiary": "#4e4d51",
+          "secondary-container": "#feb228",
+          "on-error": "#ffffff",
+          "secondary-fixed": "#ffddb0",
+          "on-secondary-fixed-variant": "#614000",
+          "tertiary-fixed": "#e4e1e6",
+          "on-primary-fixed": "#410002",
+          "primary-fixed-dim": "#ffb4ab",
+          "on-tertiary": "#ffffff",
+          "primary-fixed": "#ffdad6",
+          "on-surface-variant": "#5c403c",
+          "on-secondary-fixed": "#281800",
+          "secondary": "#805600",
+          "surface-container-lowest": "#ffffff",
+          "tertiary-fixed-dim": "#c8c5ca",
+          "error": "#ba1a1a",
+          "primary-container": "#c9181e",
+          "on-error-container": "#93000a",
+          "on-background": "#1b1c1a",
+          "on-surface": "#1b1c1a",
+          "inverse-surface": "#30312e",
+          "surface-container-high": "#eae8e4",
+          "surface-variant": "#e4e2de",
+          "surface-container-low": "#f5f3ef",
+          "primary": "#a0000f",
+          "on-secondary": "#ffffff",
+          "on-tertiary-container": "#e6e3e7",
+          "surface-container-highest": "#e4e2de",
+          "on-primary-container": "#ffdcd8",
+          "outline": "#916f6b",
+          "tertiary-container": "#666569",
+          "on-primary": "#ffffff",
+          "surface": "#fbf9f5",
+          "secondary-fixed-dim": "#ffba46",
+          "surface-tint": "#be0b17",
+          "outline-variant": "#e5bdb9",
+          "on-primary-fixed-variant": "#93000d",
+          "surface-bright": "#fbf9f5",
+          "on-secondary-container": "#6c4800",
+          "inverse-on-surface": "#f2f0ed",
+          "inverse-primary": "#ffb4ab",
+          "error-container": "#ffdad6",
+          "on-tertiary-fixed-variant": "#47464a",
+          "on-tertiary-fixed": "#1b1b1e",
+          "surface-dim": "#dbdad6"
+        },
+        "borderRadius": {
+          "DEFAULT": "0.25rem",
+          "lg": "0.5rem",
+          "xl": "0.75rem",
+          "full": "9999px"
+        },
+        "spacing": {
+          "space-md": "1rem",
+          "space-xs": "0.25rem",
+          "margin-mobile": "1rem",
+          "space-xl": "2.5rem",
+          "margin": "2rem",
+          "space-lg": "1.5rem",
+          "gutter": "1.25rem",
+          "gutter-mobile": "0.75rem",
+          "space-sm": "0.5rem"
+        },
+        "fontFamily": {
+          "body-lg": ["Plus Jakarta Sans"],
+          "label-sm": ["Plus Jakarta Sans"],
+          "display-lg": ["Outfit"],
+          "label-lg": ["Plus Jakarta Sans"],
+          "display-lg-mobile": ["Outfit"],
+          "headline-md": ["Outfit"],
+          "body-md": ["Plus Jakarta Sans"],
+          "headline-lg-mobile": ["Outfit"],
+          "label-md": ["Plus Jakarta Sans"],
+          "headline-sm": ["Outfit"],
+          "headline-lg": ["Outfit"],
+          "title-md": ["Plus Jakarta Sans"]
+        },
+        "fontSize": {
+          "body-lg": ["16px", { "lineHeight": "24px", "fontWeight": "400" }],
+          "label-sm": ["11px", { "lineHeight": "14px", "letterSpacing": "0.04em", "fontWeight": "700" }],
+          "display-lg": ["48px", { "lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+          "label-lg": ["14px", { "lineHeight": "20px", "letterSpacing": "0.01em", "fontWeight": "600" }],
+          "display-lg-mobile": ["36px", { "lineHeight": "44px", "letterSpacing": "-0.01em", "fontWeight": "700" }],
+          "headline-md": ["24px", { "lineHeight": "32px", "fontWeight": "600" }],
+          "body-md": ["14px", { "lineHeight": "20px", "fontWeight": "400" }],
+          "headline-lg-mobile": ["26px", { "lineHeight": "34px", "letterSpacing": "-0.01em", "fontWeight": "700" }],
+          "label-md": ["12px", { "lineHeight": "16px", "letterSpacing": "0.02em", "fontWeight": "600" }],
+          "headline-sm": ["20px", { "lineHeight": "28px", "fontWeight": "600" }],
+          "headline-lg": ["32px", { "lineHeight": "40px", "letterSpacing": "-0.01em", "fontWeight": "700" }],
+          "title-md": ["18px", { "lineHeight": "26px", "fontWeight": "600" }]
+        }
+      }
+    }
+  };
+</script></head><body class="bg-background font-body-md text-on-surface antialiased selection:bg-secondary-container selection:text-on-secondary-container"><header class="fixed top-0 left-0 right-0 z-50 bg-surface/95 backdrop-blur-md border-b border-surface-container-high shadow-[0_4px_25px_rgba(26,26,30,0.06)]"><div class="bg-primary text-on-primary px-4 md:px-margin py-space-xs"><div class="max-w-7xl mx-auto flex items-center justify-between text-label-md font-label-md"><div class="flex items-center gap-space-sm overflow-hidden text-ellipsis whitespace-nowrap"><span class="bg-secondary-container text-on-secondary-container px-2 py-0.5 rounded font-label-sm uppercase tracking-wider font-bold">LAHORE SPECIAL</span><span class="font-medium text-white/95">🔥 Live Charcoal BBQ, Shinwari Karahi &amp; Sizzling Smash Burgers</span><span class="opacity-40">|</span><span>📞 Hotline: 0300-0341185</span></div><div class="hidden sm:flex items-center gap-space-md"><span class="flex items-center gap-space-xs text-white/90"><span class="material-symbols-outlined text-[15px]">schedule</span> Open till 3:30 AM</span><span class="bg-black/25 text-white border border-white/20 px-2 py-0.5 rounded font-label-sm flex items-center gap-1 font-bold"><span class="material-symbols-outlined text-[13px] text-secondary-container">verified</span> 100% HALAL CERTIFIED</span></div></div></div><div class="h-20 max-w-7xl mx-auto px-4 md:px-margin flex items-center justify-between gap-space-md"><div class="flex items-center gap-space-md flex-shrink-0"><a class="flex items-center gap-3" href="/"><img alt="Hadiq Foods &amp; Pizza – Family Restaurant" class="h-14 w-auto object-contain rounded-md" src="logo.jpg" width="229" height="163"/></a></div><nav aria-label="Main" class="hidden lg:flex items-center gap-1"><a class="px-3 py-1.5 rounded-lg text-on-surface-variant hover:text-on-surface font-label-md text-label-md transition-colors" href="/">Home</a><a class="px-3 py-1.5 rounded-lg text-on-surface-variant hover:text-on-surface font-label-md text-label-md transition-colors" href="menu.html">Menu</a><a class="px-3 py-1.5 rounded-lg text-on-surface-variant hover:text-on-surface font-label-md text-label-md transition-colors" href="about.html">About</a><a aria-current="page" class="px-3 py-1.5 transition-colors bg-primary text-on-primary font-label-lg text-label-lg rounded-lg shadow-sm" href="contact.html">Contact</a></nav><div class="flex items-center gap-space-sm flex-shrink-0"><a aria-label="Cart" class="relative bg-primary text-on-primary px-space-md py-2.5 rounded-xl font-label-lg text-label-lg flex items-center gap-space-xs shadow-[0_4px_14px_rgba(160,0,15,0.35)] hover:bg-primary-container active:scale-95 transition-all" href="#cart"><span class="material-symbols-outlined text-[20px]">shopping_bag</span><span class="hidden sm:inline">Cart</span><span class="absolute -top-2 -right-2 min-w-[20px] h-5 px-1 rounded-full bg-secondary-container text-on-secondary-container text-[11px] font-bold flex items-center justify-center" data-cart-count>0</span></a><details class="relative lg:hidden"><summary aria-label="Open menu" class="list-none [&amp;::-webkit-details-marker]:hidden w-10 h-10 rounded-xl bg-surface-container-high border border-outline-variant/40 flex items-center justify-center cursor-pointer"><span class="material-symbols-outlined text-on-surface text-[22px]">menu</span></summary><nav aria-label="Main" class="absolute right-0 top-12 w-48 p-2 flex flex-col gap-1 bg-surface rounded-xl border border-outline-variant/40 shadow-lg z-50"><a class="block px-3 py-2.5 rounded-lg text-on-surface hover:bg-surface-container font-label-lg text-label-lg" href="/">Home</a><a class="block px-3 py-2.5 rounded-lg text-on-surface hover:bg-surface-container font-label-lg text-label-lg" href="menu.html">Menu</a><a class="block px-3 py-2.5 rounded-lg text-on-surface hover:bg-surface-container font-label-lg text-label-lg" href="about.html">About</a><a aria-current="page" class="block px-3 py-2.5 rounded-lg bg-primary text-on-primary font-label-lg text-label-lg" href="contact.html">Contact</a></nav></details><div class="w-9 h-9 rounded-full bg-surface-container-high border border-outline-variant/40 flex items-center justify-center cursor-pointer hover:bg-surface-container-highest transition-colors"><span class="material-symbols-outlined text-on-surface text-[19px]">person</span></div></div></div></header><main class="w-full pt-28 bg-background"><div class="flex flex-col w-full">
+<!-- Subtle Amber/Crimson Ambient Atmosphere -->
+<div class="relative w-full overflow-hidden">
+<!-- Ambient Radial Glow -->
+<div class="absolute -top-24 -left-20 w-96 h-96 bg-primary/10 rounded-full blur-3xl pointer-events-none"></div>
+<div class="absolute top-48 right-0 w-80 h-80 bg-secondary-container/15 rounded-full blur-3xl pointer-events-none"></div>
+<div class="max-w-7xl mx-auto px-4 md:px-margin pt-8 pb-12">
+<!-- Section Header Banner -->
+<div class="flex flex-col md:flex-row md:items-end justify-between gap-6 pb-10">
+<div class="max-w-3xl space-y-3">
+<div class="inline-flex items-center gap-2 px-3 py-1 bg-surface-container rounded-full shadow-sm">
+<span class="w-2 h-2 rounded-full bg-primary animate-pulse"></span>
+<span class="font-label-sm text-label-sm text-primary uppercase tracking-wider font-bold">GET IN TOUCH • LAHORE BRANCH &amp; HOTLINE</span>
+</div>
+<h1 class="font-display-lg text-display-lg text-on-surface tracking-tight font-extrabold leading-tight">
+            We’re Always <span class="text-primary italic">Fired Up</span> to Hear From You
+          </h1>
+<p class="font-body-lg text-body-lg text-on-surface-variant max-w-2xl leading-relaxed">
+            Whether you want to reserve a family dawat table, plan corporate catering, or inquire about your late-night delivery order across Lahore, our team is at your service till 3:30 AM.
+          </p>
+</div>
+<!-- Quick Status Pill -->
+<div class="flex items-center gap-3 bg-surface-container-low p-4 rounded-xl shadow-sm self-start md:self-auto">
+<div class="w-12 h-12 rounded-lg bg-primary-container flex items-center justify-center text-on-primary">
+<span class="material-symbols-outlined text-[26px]">skillet</span>
+</div>
+<div>
+<div class="flex items-center gap-1.5 font-label-md text-label-md text-primary font-bold">
+<span class="w-2 h-2 rounded-full bg-emerald-500"></span>
+              LIVE TANDOOR ACTIVE
+            </div>
+<div class="font-title-md text-title-md font-bold text-on-surface">Kitchen Dispatches 24/7</div>
+<div class="text-xs text-on-surface-variant">Avg. Table Prep: 15-20 mins</div>
+</div>
+</div>
+</div>
+<!-- Main Two-Column Layout -->
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-gutter items-start">
+<!-- LEFT COLUMN (7 Cols): Contact Information & Branch Details -->
+<div class="lg:col-span-7 space-y-6">
+<!-- Flagship Branch Showcase Card -->
+<div class="bg-surface-container-lowest rounded-xl p-6 shadow-sm relative overflow-hidden transition-all hover:shadow-md">
+<div class="absolute -right-12 -bottom-12 w-48 h-48 bg-secondary-container/10 rounded-full blur-2xl pointer-events-none"></div>
+<div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-5">
+<div>
+<span class="inline-flex items-center gap-1.5 px-2.5 py-1 bg-secondary-fixed text-on-secondary-fixed-variant rounded font-label-sm text-label-sm font-bold uppercase tracking-wider">
+<span class="material-symbols-outlined text-[14px]">restaurant</span>
+                  Flagship Lahore Location
+                </span>
+<h2 class="font-headline-lg text-headline-lg text-on-surface font-bold mt-1.5">
+                  Lalpul, Mughal Pura Branch
+                </h2>
+</div>
+<div class="flex items-center gap-1 bg-surface-container-high px-3 py-1.5 rounded-lg text-xs font-bold text-on-surface">
+<span class="material-symbols-outlined text-secondary-container text-[18px]">verified</span>
+                Dine-In Family Hall &amp; Live Kitchen
+              </div>
+</div>
+<!-- Address and Key Highlights -->
+<div class="space-y-4">
+<div class="flex items-start gap-3 text-body-md text-on-surface-variant">
+<div class="w-9 h-9 rounded-lg bg-surface-container flex items-center justify-center text-primary shrink-0 mt-0.5">
+<span class="material-symbols-outlined text-[20px]">location_on</span>
+</div>
+<div>
+<strong class="text-on-surface font-title-md block">Lalpul, Mughal Pura, Lahore, Pakistan</strong>
+</div>
+</div>
+<!-- Quick Action Chips for the Branch -->
+<div class="flex flex-wrap gap-2 pt-2">
+<span class="px-3 py-1 bg-surface-container text-on-surface rounded-full text-xs font-semibold flex items-center gap-1.5">
+<span class="material-symbols-outlined text-[15px] text-primary">ac_unit</span> Full Central AC
+                </span>
+<span class="px-3 py-1 bg-surface-container text-on-surface rounded-full text-xs font-semibold flex items-center gap-1.5">
+<span class="material-symbols-outlined text-[15px] text-primary">family_restroom</span> Dedicated Family Partition
+                </span>
+<span class="px-3 py-1 bg-surface-container text-on-surface rounded-full text-xs font-semibold flex items-center gap-1.5">
+<span class="material-symbols-outlined text-[15px] text-primary">local_parking</span> Free Valet
+                </span>
+<span class="px-3 py-1 bg-surface-container text-on-surface rounded-full text-xs font-semibold flex items-center gap-1.5">
+<span class="material-symbols-outlined text-[15px] text-primary">mosque</span> Prayer Area Available
+                </span>
+</div>
+</div>
+</div>
+<!-- Hotlines & Direct Contacts Grid -->
+<div class="grid grid-cols-1 sm:grid-cols-2 gap-gutter">
+<!-- Phone Orders & Table Booking -->
+<div class="bg-surface-container-lowest rounded-xl p-5 shadow-sm space-y-3">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center text-primary">
+<span class="material-symbols-outlined text-[22px]">call</span>
+</div>
+<div>
+<h3 class="font-title-md text-title-md font-bold text-on-surface">Hotline Booking</h3>
+<span class="text-xs text-on-surface-variant">Instant Table &amp; Takeaway</span>
+</div>
+</div>
+<div class="space-y-1 pt-1">
+<a class="block font-headline-sm text-headline-sm font-bold text-primary hover:underline" href="tel:+923000341185">
+                  0300-0341185
+                </a>
+</div>
+<p class="text-xs text-on-surface-variant pt-1">
+                Priority ring for dawat reservations of 6+ guests and urgent delivery queries.
+              </p>
+</div>
+<!-- Instant WhatsApp Dispatch -->
+<div class="bg-surface-container-lowest rounded-xl p-5 shadow-sm space-y-3 relative overflow-hidden">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-lg bg-emerald-100 flex items-center justify-center text-emerald-800">
+<span class="material-symbols-outlined text-[22px]">chat</span>
+</div>
+<div>
+<h3 class="font-title-md text-title-md font-bold text-on-surface">WhatsApp Dispatch</h3>
+<span class="text-xs text-on-surface-variant">Live Menu &amp; Location Share</span>
+</div>
+</div>
+<div class="pt-1">
+<a class="inline-flex items-center justify-center gap-2 w-full py-2.5 px-4 bg-emerald-600 hover:bg-emerald-700 text-white rounded-lg font-label-lg text-label-lg shadow-sm transition-all active:scale-95" href="https://wa.me/923000341185?text=Hello%20Hadiq%20Foods!%20I%20would%20like%20to%20place%20an%20order%20or%20reserve%20a%20table." rel="noopener noreferrer" target="_blank">
+<span class="material-symbols-outlined text-[18px]">send</span>
+                  Chat on WhatsApp
+                </a>
+</div>
+<div class="flex items-center justify-between text-xs text-on-surface-variant pt-1">
+<span>Avg reply: &lt; 2 minutes</span>
+<span class="text-emerald-700 font-semibold flex items-center gap-1">
+<span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span> Online Now
+                </span>
+</div>
+</div>
+</div>
+<!-- Operating Hours & Delivery Zones Bento Layout -->
+<div class="bg-surface-container-low rounded-xl p-6 shadow-sm space-y-6">
+<!-- Operating Hours -->
+<div>
+<div class="flex items-center justify-between mb-4">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-primary text-[22px]">schedule</span>
+<h3 class="font-headline-sm text-headline-sm font-bold text-on-surface">Lahore Timings &amp; Service Hours</h3>
+</div>
+<span class="px-2.5 py-0.5 rounded bg-surface-container-highest text-[11px] font-bold text-on-surface-variant uppercase">
+                  Open 7 Days a Week
+                </span>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+<div class="bg-surface-container-lowest p-4 rounded-lg shadow-sm">
+<div class="font-label-lg text-label-lg font-bold text-on-surface flex items-center gap-1.5">
+<span class="material-symbols-outlined text-[16px] text-primary">table_restaurant</span>
+                    Dine-in &amp; Family Hall
+                  </div>
+<div class="text-body-md text-on-surface mt-1 font-semibold">12:00 PM – 2:00 AM</div>
+<span class="text-xs text-on-surface-variant">Last kitchen seating: 1:30 AM</span>
+</div>
+<div class="bg-surface-container-lowest p-4 rounded-lg shadow-sm">
+<div class="font-label-lg text-label-lg font-bold text-on-surface flex items-center gap-1.5">
+<span class="material-symbols-outlined text-[16px] text-secondary-container">moped</span>
+                    Takeaway &amp; Midnight Delivery
+                  </div>
+<div class="text-body-md text-on-surface mt-1 font-semibold">12:00 PM – 3:30 AM</div>
+<span class="text-xs text-on-surface-variant">Non-stop charcoal &amp; smash grill</span>
+</div>
+</div>
+</div>
+<!-- Delivery Zones -->
+<div class="pt-2">
+<div class="flex items-center gap-2 mb-2">
+<span class="material-symbols-outlined text-primary text-[20px]">near_me</span>
+<span class="font-title-md text-title-md font-bold text-on-surface">Express Delivery Coverage Across Lahore</span>
+</div>
+<p class="text-xs text-on-surface-variant mb-3">
+                Delivered in custom insulated thermal food boxes keeping Charcoal Karahi sizzling and Naans steaming hot:
+              </p>
+<div class="flex flex-wrap gap-2">
+<span class="px-3 py-1 bg-surface-container-lowest text-on-surface text-xs font-semibold rounded-md shadow-xs">Shalimar Town (15-25 min)</span>
+<span class="px-3 py-1 bg-surface-container-lowest text-on-surface text-xs font-semibold rounded-md shadow-xs">Baghbanpura (15-25 min)</span>
+<span class="px-3 py-1 bg-surface-container-lowest text-on-surface text-xs font-semibold rounded-md shadow-xs">Mughalpura (25-35 min)</span>
+<span class="px-3 py-1 bg-surface-container-lowest text-on-surface text-xs font-semibold rounded-md shadow-xs">Dharampura (30-40 min)</span>
+<span class="px-3 py-1 bg-surface-container-lowest text-on-surface text-xs font-semibold rounded-md shadow-xs">Lahore Cantt (35-45 min)</span>
+<span class="px-3 py-1 bg-surface-container-lowest text-on-surface text-xs font-semibold rounded-md shadow-xs">Gulberg (35-45 min)</span>
+<span class="px-3 py-1 bg-surface-container-lowest text-on-surface text-xs font-semibold rounded-md shadow-xs">DHA Phases 1–5 (40-50 min)</span>
+</div>
+</div>
+</div>
+<!-- Customer Care & Email Feedback Card -->
+<div class="bg-surface-container-lowest rounded-xl p-5 shadow-sm flex flex-col sm:flex-row items-center justify-between gap-4">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-lg bg-surface-container flex items-center justify-center text-on-surface">
+<span class="material-symbols-outlined text-[20px]">mail</span>
+</div>
+<div>
+<h3 class="font-title-md text-title-md font-bold text-on-surface">Corporate Dawats &amp; Complaints</h3>
+<span class="text-xs text-on-surface-variant">General Manager Desk direct response</span>
+</div>
+</div>
+<a class="font-label-lg text-label-lg text-primary hover:underline font-semibold" href="mailto:orders@hadiqfoods.pk">
+              orders@hadiqfoods.pk
+            </a>
+</div>
+</div>
+<!-- RIGHT COLUMN (5 Cols): Interactive Booking & Inquiry Form -->
+<div class="lg:col-span-5">
+<div class="bg-surface-container-lowest rounded-xl p-6 sm:p-8 shadow-md sticky top-28 space-y-6">
+<!-- Form Header -->
+<div class="space-y-1 pb-2">
+<span class="px-2.5 py-0.5 rounded bg-primary/10 text-primary font-label-sm text-label-sm uppercase tracking-wider font-bold">
+                Table Booking &amp; Message
+              </span>
+<h2 class="font-headline-md text-headline-md font-bold text-on-surface">
+                Send Us a Message or Book a Table
+              </h2>
+<p class="font-body-md text-body-md text-on-surface-variant">
+                Fill the quick form below and tap send — it opens WhatsApp with your details ready to send to us.
+              </p>
+</div>
+<!-- Form Content -->
+<form class="space-y-4" id="reservationForm" onsubmit="handleReservationSubmit(event)">
+<!-- Full Name -->
+<div>
+<label class="block font-label-md text-label-md font-semibold text-on-surface mb-1" for="fullName">
+                  Full Name <span class="text-primary">*</span>
+</label>
+<input class="w-full h-12 px-3.5 bg-surface-container-low rounded-lg text-on-surface text-body-md placeholder:text-on-surface-variant/50 focus:bg-surface-container-lowest focus:outline-none focus:ring-2 focus:ring-primary transition-all" id="fullName" name="fullName" placeholder="e.g. Mian Tariq Mahmood" required="" type="text"/>
+</div>
+<!-- Phone / WhatsApp Number -->
+<div>
+<label class="block font-label-md text-label-md font-semibold text-on-surface mb-1" for="phoneNumber">
+                  Phone / WhatsApp Number <span class="text-primary">*</span>
+</label>
+<div class="relative">
+<span class="absolute left-3 top-3 text-body-md font-medium text-on-surface-variant">🇵🇰 +92</span>
+<input class="w-full h-12 pl-16 pr-3.5 bg-surface-container-low rounded-lg text-on-surface text-body-md placeholder:text-on-surface-variant/50 focus:bg-surface-container-lowest focus:outline-none focus:ring-2 focus:ring-primary transition-all" id="phoneNumber" name="phoneNumber" placeholder="300 1234567" required="" type="tel"/>
+</div>
+</div>
+<!-- Inquiry Type Selector -->
+<div>
+<label class="block font-label-md text-label-md font-semibold text-on-surface mb-1" for="inquiryType">
+                  Inquiry Purpose <span class="text-primary">*</span>
+</label>
+<select class="w-full h-12 px-3.5 bg-surface-container-low rounded-lg text-on-surface text-body-md focus:bg-surface-container-lowest focus:outline-none focus:ring-2 focus:ring-primary transition-all" id="inquiryType" name="inquiryType" onchange="toggleGuestField(this.value)">
+<option value="Table Reservation">Dine-In Table Reservation (Family / Friends)</option>
+<option value="Family Dawat / Catering Event">Family Dawat / Birthday / Catering Event (20-80 Pax)</option>
+<option value="Delivery Support">Urgent Delivery / Order Dispatch Tracking</option>
+<option value="Feedback &amp; Compliments">Feedback, Suggestions &amp; Inquiries</option>
+</select>
+</div>
+<!-- Guests Counter & Time Split -->
+<div class="grid grid-cols-1 sm:grid-cols-2 gap-3 transition-all" id="bookingDetailsGroup">
+<div>
+<label class="block font-label-md text-label-md font-semibold text-on-surface mb-1" for="guestCount">
+                    Number of Guests
+                  </label>
+<div class="relative">
+<select class="w-full h-12 px-3 bg-surface-container-low rounded-lg text-on-surface text-body-md focus:bg-surface-container-lowest focus:outline-none focus:ring-2 focus:ring-primary transition-all" id="guestCount" name="guestCount">
+<option value="2 Guests">2 Persons</option>
+<option selected="" value="4-6 Guests">4–6 Persons (Standard Table)</option>
+<option value="8-12 Guests">8–12 Persons (Family Dawat Table)</option>
+<option value="15-25 Guests">15–25 Persons (Private Dawat Hall)</option>
+<option value="30+ Guests">30+ Persons (Large Banquet Section)</option>
+</select>
+</div>
+</div>
+<div>
+<label class="block font-label-md text-label-md font-semibold text-on-surface mb-1" for="bookingTime">
+                    Date &amp; Time
+                  </label>
+<input class="w-full h-12 px-3 bg-surface-container-low rounded-lg text-on-surface text-body-md focus:bg-surface-container-lowest focus:outline-none focus:ring-2 focus:ring-primary transition-all" id="bookingTime" name="bookingTime" type="datetime-local"/>
+</div>
+</div>
+<!-- Special Requests / Dietary Notes -->
+<div>
+<label class="block font-label-md text-label-md font-semibold text-on-surface mb-1" for="specialRequests">
+                  Special Requests / Karahi Preparation Note
+                </label>
+<textarea class="w-full p-3 bg-surface-container-low rounded-lg text-on-surface text-body-md placeholder:text-on-surface-variant/50 focus:bg-surface-container-lowest focus:outline-none focus:ring-2 focus:ring-primary transition-all" id="specialRequests" name="specialRequests" placeholder="e.g. Mild spice for kids, window family booth preference, or pre-order 1kg Shinwari Mutton Karahi..." rows="3"></textarea>
+</div>
+<!-- Submit Button & Guarantee Note -->
+<div class="pt-2">
+<button class="w-full h-12 bg-primary hover:bg-primary-container text-on-primary font-label-lg text-label-lg rounded-lg shadow-md transition-all active:scale-98 flex items-center justify-center gap-2" id="submitBtn" type="submit">
+<span class="material-symbols-outlined text-[20px]">calendar_month</span>
+<span>Send Request on WhatsApp</span>
+</button>
+</div>
+<div class="flex items-center justify-center gap-2 text-xs text-on-surface-variant text-center pt-1">
+<span class="material-symbols-outlined text-secondary-container text-[16px]">verified_user</span>
+<span>Your request is sent to us on WhatsApp at <strong>0300-0341185</strong>.</span>
+</div>
+<!-- Submission Feedback Toast (Hidden initially) -->
+<div class="hidden p-4 bg-emerald-50 text-emerald-900 rounded-lg shadow-sm" id="formSuccessToast">
+<div class="flex items-start gap-2">
+<span class="material-symbols-outlined text-emerald-600 text-[20px] shrink-0 mt-0.5">check_circle</span>
+<div class="text-xs">
+<strong class="font-semibold block text-body-md">WhatsApp opened with your request.</strong>
+                    Press send in WhatsApp to deliver it. If WhatsApp didn’t open, call or message us on 0300-0341185.
+                  </div>
+</div>
+</div>
+</form>
+</div>
+</div>
+</div>
+<!-- VISUAL SHOWCASE & MAP BENTO SECTION (Inspired by Dining Hall Atmosphere) -->
+<div class="mt-14 space-y-6">
+<div class="flex flex-col sm:flex-row sm:items-end justify-between gap-3">
+<div>
+<div class="font-label-sm text-label-sm uppercase tracking-wider text-primary font-bold">ATMOSPHERE &amp; LIVE COOKING</div>
+<h2 class="font-headline-lg text-headline-lg font-bold text-on-surface">Experience Hadiq Foods In Person</h2>
+</div>
+<div class="flex items-center gap-2">
+<span class="px-3 py-1 bg-surface-container text-on-surface text-xs font-bold rounded-full">
+              ⭐ 4.6 / 5.0 (1,400+ Verified Diners)
+            </span>
+</div>
+</div>
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-gutter">
+<!-- Image Feature Card with Authentic Dining Hall & Live Kitchen -->
+<div class="lg:col-span-7 bg-surface-container-lowest rounded-xl overflow-hidden shadow-sm flex flex-col justify-between">
+<div class="relative h-72 sm:h-96 w-full overflow-hidden">
+<img class="w-full h-full object-cover transition-transform duration-700 hover:scale-105" data-alt="Vibrant restaurant dining hall in Lahore filled with Pakistani families enjoying mutton karahi and seekh kabab dinner, warm brick walls with ornate oriental tapestries, warm hanging pendant lights, and an expansive open live kitchen counter with chefs grilling BBQ over open flames with sizzle and smoke, cozy modern hospitable atmosphere" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAgK3JP7SdtvGyITvEZ2HgTxffuwCGfdgO_qKXEAfO_OcetXKOZBPim6Gep0qMw4J7nUnifV_ekAfWC_GEmpYEWEb9QMPsiMbmvssV2-eAEfX6NWmC-RjvtCjPm1Zi1PobmwFeepxLH0pjcsPBDQM9gsHZXfuMpgWIdHuE1SS93pQ1dsXFGVogi5sAq3Q_by21cir02HpeGDrGZeZtCxy0M7Mv9gI_q1538MjGhgnsS6XuPZnKOv7pG6w"/>
+<div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent"></div>
+<div class="absolute top-4 left-4 bg-black/60 backdrop-blur-md text-white px-3 py-1.5 rounded-lg text-xs font-bold flex items-center gap-1.5">
+<span class="w-2 h-2 rounded-full bg-emerald-400"></span>
+                Live Kitchen Counter &amp; Tandoor Active
+              </div>
+<div class="absolute bottom-4 left-4 right-4 text-white space-y-1">
+<span class="text-xs uppercase tracking-wider text-secondary-container font-bold">Floor Showcase</span>
+<h3 class="font-headline-sm text-headline-sm font-bold leading-snug">
+                  Spacious Air-Conditioned Family Hall &amp; Open Viewing Kitchen
+                </h3>
+<p class="text-xs text-stone-300">
+                  Watch our Master Karahi Ustads prepare your meat fresh over flaming woks and live coals while your family relaxes in carpeted and cushioned booth setups.
+                </p>
+</div>
+</div>
+<!-- Highlights strip under photo -->
+<div class="p-4 bg-surface-container-low grid grid-cols-3 gap-2 text-center">
+<div>
+<div class="font-headline-sm text-headline-sm font-bold text-primary">180+</div>
+<div class="text-[11px] text-on-surface-variant font-medium">Guest Seating Capacity</div>
+</div>
+<div>
+<div class="font-headline-sm text-headline-sm font-bold text-on-surface">100%</div>
+<div class="text-[11px] text-on-surface-variant font-medium">Halal Hand-Cut Meat</div>
+</div>
+<div>
+<div class="font-headline-sm text-headline-sm font-bold text-secondary">3:30 AM</div>
+<div class="text-[11px] text-on-surface-variant font-medium">Late Night Kitchen Close</div>
+</div>
+</div>
+</div>
+<!-- Interactive Google Map Static Pipeline Card -->
+<div class="lg:col-span-5 bg-surface-container-lowest rounded-xl p-5 shadow-sm flex flex-col justify-between space-y-4">
+<div class="flex items-center justify-between">
+<div>
+<span class="font-label-sm text-label-sm uppercase text-primary font-bold">Interactive Navigation</span>
+<h3 class="font-title-md text-title-md font-bold text-on-surface">Find Us on Google Maps</h3>
+</div>
+<div class="bg-secondary-fixed text-on-secondary-fixed-variant px-2.5 py-1 rounded text-xs font-bold flex items-center gap-1">
+<span class="material-symbols-outlined text-[15px]">star</span> 4.6 ★
+              </div>
+</div>
+<!-- Map View Placeholder using data-location -->
+<div class="w-full h-64 sm:h-72 bg-surface-container-high rounded-lg relative overflow-hidden flex items-end p-4 shadow-inner">
+<iframe class="absolute inset-0 w-full h-full border-0" loading="lazy" referrerpolicy="no-referrer-when-downgrade" src="https://www.google.com/maps?q=Lalpul,+Mughal+Pura,+Lahore,+Pakistan&amp;output=embed" title="Hadiq Foods location – Lalpul, Mughal Pura, Lahore"></iframe>
+<div class="relative bg-surface-container-lowest/95 backdrop-blur-md p-3 rounded-lg shadow-md w-full flex items-center justify-between gap-2">
+<div class="min-w-0">
+<strong class="font-label-md text-label-md font-bold text-on-surface block truncate">Hadiq Foods Lahore Flagship</strong>
+<span class="text-[11px] text-on-surface-variant block truncate">Lalpul, Mughal Pura, Lahore</span>
+</div>
+<a class="shrink-0 px-3 py-1.5 bg-primary text-on-primary rounded text-xs font-bold flex items-center gap-1 hover:bg-primary-container transition-colors" href="https://www.google.com/maps/search/?api=1&amp;query=Lalpul%2C+Mughal+Pura%2C+Lahore%2C+Pakistan" rel="noopener noreferrer" target="_blank">
+<span class="material-symbols-outlined text-[14px]">directions</span>
+                  Directions
+                </a>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- FAQ ACCORDION SECTION -->
+<div class="mt-14 max-w-4xl mx-auto space-y-4">
+<div class="text-center space-y-1 pb-4">
+<span class="font-label-sm text-label-sm text-primary font-bold uppercase tracking-wider">FREQUENTLY ASKED QUESTIONS</span>
+<h2 class="font-headline-lg text-headline-lg font-bold text-on-surface">Everything You Need to Know</h2>
+<p class="text-body-md text-on-surface-variant">Planning a dinner, birthday dawat or late-night delivery?</p>
+</div>
+<div class="space-y-3">
+<!-- Accordion 1 -->
+<details class="group bg-surface-container-lowest rounded-xl p-5 shadow-sm transition-all open:shadow-md cursor-pointer">
+<summary class="flex items-center justify-between font-title-md text-title-md font-bold text-on-surface list-none">
+<span class="flex items-center gap-2.5">
+<span class="material-symbols-outlined text-primary text-[22px]">groups</span>
+                Do you take reservations for large family dawats &amp; birthday parties?
+              </span>
+<span class="material-symbols-outlined text-on-surface-variant transition-transform group-open:rotate-180">expand_more</span>
+</summary>
+<div class="mt-3 text-body-md text-on-surface-variant leading-relaxed pl-8">
+              Yes, absolutely! We have a dedicated, fully air-conditioned family hall and a private mezzanine space that can comfortably accommodate groups of up to 45 guests. For dawats larger than 12 persons, we suggest reserving at least 3 hours in advance so our pitmasters can curate fresh mutton cuts and pre-marinate signature BBQ platters.
+            </div>
+</details>
+<!-- Accordion 2 -->
+<details class="group bg-surface-container-lowest rounded-xl p-5 shadow-sm transition-all open:shadow-md cursor-pointer">
+<summary class="flex items-center justify-between font-title-md text-title-md font-bold text-on-surface list-none">
+<span class="flex items-center gap-2.5">
+<span class="material-symbols-outlined text-primary text-[22px]">moped</span>
+                How late does your delivery service run across Lahore?
+              </span>
+<span class="material-symbols-outlined text-on-surface-variant transition-transform group-open:rotate-180">expand_more</span>
+</summary>
+<div class="mt-3 text-body-md text-on-surface-variant leading-relaxed pl-8">
+              Our live charcoal grills, karahi burners, and gourmet smash burger stations dispatch hot orders till <strong>3:30 AM every night</strong>. Our delivery fleet covers Shalimar Town, Baghbanpura, Mughalpura, Dharampura, Cantt, Gulberg, and DHA Lahore with thermal-insulated carriers.
+            </div>
+</details>
+<!-- Accordion 3 -->
+<details class="group bg-surface-container-lowest rounded-xl p-5 shadow-sm transition-all open:shadow-md cursor-pointer">
+<summary class="flex items-center justify-between font-title-md text-title-md font-bold text-on-surface list-none">
+<span class="flex items-center gap-2.5">
+<span class="material-symbols-outlined text-primary text-[22px]">payments</span>
+                What payment methods do you accept at the branch &amp; doorstep?
+              </span>
+<span class="material-symbols-outlined text-on-surface-variant transition-transform group-open:rotate-180">expand_more</span>
+</summary>
+<div class="mt-3 text-body-md text-on-surface-variant leading-relaxed pl-8">
+              At both the restaurant and your delivery doorstep, we accept <strong>Cash on Delivery (COD)</strong>, direct <strong>JazzCash</strong>, <strong>EasyPaisa</strong>, and wireless bank card POS terminals (Visa/Mastercard). All cash receipts are FBR POS computerized slips.
+            </div>
+</details>
+<!-- Accordion 4 -->
+<details class="group bg-surface-container-lowest rounded-xl p-5 shadow-sm transition-all open:shadow-md cursor-pointer">
+<summary class="flex items-center justify-between font-title-md text-title-md font-bold text-on-surface list-none">
+<span class="flex items-center gap-2.5">
+<span class="material-symbols-outlined text-primary text-[22px]">verified</span>
+                Is all meat 100% fresh and Halal certified?
+              </span>
+<span class="material-symbols-outlined text-on-surface-variant transition-transform group-open:rotate-180">expand_more</span>
+</summary>
+<div class="mt-3 text-body-md text-on-surface-variant leading-relaxed pl-8">
+              100% guaranteed. We source only fresh, organic, hand-slaughtered mutton, beef chuck, and tender poultry daily from certified Lahore butchers. We never freeze our BBQ skewers or burger patties; every item is freshly grounded and cooked directly to order.
+            </div>
+</details>
+</div>
+</div>
+</div>
+</div>
+</div>
+<script>
+  function toggleGuestField(inquiryValue) {
+    const bookingDetailsGroup = document.getElementById('bookingDetailsGroup');
+    const submitBtn = document.getElementById('submitBtn');
+
+    if (inquiryValue === 'Table Reservation' || inquiryValue === 'Family Dawat / Catering Event') {
+      bookingDetailsGroup.classList.remove('hidden');
+      submitBtn.innerHTML = `
+        <span class="material-symbols-outlined text-[20px]">calendar_month</span>
+        <span>Send Request on WhatsApp</span>
+      `;
+    } else {
+      bookingDetailsGroup.classList.add('hidden');
+      submitBtn.innerHTML = `
+        <span class="material-symbols-outlined text-[20px]">send</span>
+        <span>Send Message on WhatsApp</span>
+      `;
+    }
+  }
+
+  function handleReservationSubmit(e) {
+    e.preventDefault();
+    const btn = document.getElementById('submitBtn');
+    const toast = document.getElementById('formSuccessToast');
+
+    const val = id => document.getElementById(id).value.trim();
+    const type = val('inquiryType');
+    const lines = [
+      'Hello Hadiq Foods! New request from the website:',
+      'Name: ' + val('fullName'),
+      'Phone: +92 ' + val('phoneNumber'),
+      'Purpose: ' + type
+    ];
+    if (type === 'Table Reservation' || type === 'Family Dawat / Catering Event') {
+      lines.push('Guests: ' + val('guestCount'));
+      if (val('bookingTime')) lines.push('Date & Time: ' + val('bookingTime').replace('T', ' '));
+    }
+    if (val('specialRequests')) lines.push('Notes: ' + val('specialRequests'));
+    window.open('https://wa.me/923000341185?text=' + encodeURIComponent(lines.join('\n')), '_blank');
+    toast.classList.remove('hidden');
+  }
+</script></main><footer class="w-full bg-[#1A1A1E] text-stone-300 mt-space-xl border-t border-stone-800"><div class="max-w-7xl mx-auto px-4 md:px-margin py-space-xl"><div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-space-lg"><div class="flex flex-col gap-space-sm"><div class="flex items-center gap-2"><span class="inline-flex bg-white rounded-lg p-2"><img alt="Hadiq Foods &amp; Pizza – Family Restaurant" class="h-14 w-auto object-contain" src="logo.jpg" width="229" height="163"/></span></div><p class="text-body-sm font-body-sm text-stone-400 leading-relaxed">Lahore’s premier multi-cuisine destination serving authentic Charcoal BBQ, Shinwari Karahi, and modern gourmet Smash Burgers under one roof.</p><div class="flex items-center gap-space-xs bg-stone-900 border border-stone-800 p-space-xs rounded-xl shadow-sm"><span class="material-symbols-outlined text-secondary-container text-[20px]">star</span><div class="text-body-sm"><span class="font-bold text-white">4.6 ★ Rated</span> on Google Maps Lahore<div class="text-stone-400 text-[11px]">Over 1,400+ satisfied diners</div></div></div></div><div class="flex flex-col gap-2"><span class="font-title-md text-white font-bold">Menu Specialties</span><a class="text-body-sm text-stone-400 hover:text-white transition-colors" data-path="full-menu" href="menu.html#karahi-section">Mutton &amp; Chicken Shinwari Karahi</a><a class="text-body-sm text-stone-400 hover:text-white transition-colors" data-path="live-bbq-karahi" href="menu.html#bbq-section">Live Charcoal Seekh Kababs &amp; Malai Boti</a><a class="text-body-sm text-stone-400 hover:text-white transition-colors" data-path="full-menu" href="menu.html#burgers-section">Double Beef &amp; Zinger Smash Burgers</a><a class="text-body-sm text-stone-400 hover:text-white transition-colors" data-path="full-menu" href="menu.html#tandoor-section">Tandoori Roghani &amp; Garlic Naan</a><a class="text-body-sm text-stone-400 hover:text-white transition-colors" data-path="full-menu" href="menu.html#deals-section">Late Night Midnight Combos</a></div><div class="flex flex-col gap-2"><span class="font-title-md text-white font-bold">Timings &amp; Service</span><div class="text-body-sm text-stone-400 flex flex-col gap-1"><div><strong class="text-white">Dine-in &amp; Family Floor:</strong> 12:00 PM – 2:00 AM</div><div><strong class="text-white">Takeaway &amp; Midnight Delivery:</strong> 12:00 PM – 3:30 AM</div></div><div class="mt-2 text-body-sm"><strong class="text-white block text-xs uppercase tracking-wider">Fast Delivery Zones:</strong><span class="text-stone-400 text-[11px] leading-tight block mt-0.5">Shalimar Town, Baghbanpura, Mughalpura, Dharampura, Cantt, Gulberg, &amp; DHA Lahore</span></div></div><div class="flex flex-col gap-2"><span class="font-title-md text-white font-bold">Branch &amp; Inquiries</span><div class="text-body-sm text-stone-400 flex flex-col gap-1"><div>Lalpul, Mughal Pura, Lahore, Pakistan</div><div>Call Dispatch: 0300-0341185</div><div>WhatsApp Orders: 0300-0341185</div></div><div class="flex items-center gap-2 mt-2"><span class="p-2 rounded-lg bg-stone-900 border border-stone-800 text-stone-300 hover:text-white cursor-pointer"><span class="material-symbols-outlined text-[18px]">chat</span></span><span class="p-2 rounded-lg bg-stone-900 border border-stone-800 text-stone-300 hover:text-white cursor-pointer"><span class="material-symbols-outlined text-[18px]">share</span></span><span class="p-2 rounded-lg bg-stone-900 border border-stone-800 text-stone-300 hover:text-white cursor-pointer"><span class="material-symbols-outlined text-[18px]">mail</span></span></div><div class="mt-2 inline-flex items-center gap-1.5 text-[11px] font-bold text-secondary-container"><span class="material-symbols-outlined text-[15px]">verified</span> 100% HAND SLAUGHTERED HALAL MEAT</div></div></div><div class="mt-space-lg pt-4 border-t border-stone-800 flex flex-col sm:flex-row items-center justify-between text-body-sm text-stone-400 gap-2 text-xs"><div>© 2025 Hadiq Foods Pvt Ltd. Authentic Desi BBQ, Karahi &amp; Fast Food. Lahore, Pakistan.</div><div class="flex items-center gap-4"><a class="hover:text-white transition-colors" href="#">Privacy Policy</a><a class="hover:text-white transition-colors" href="#">Terms of Service</a><a class="hover:text-white transition-colors" href="#">FBR POS Integrated</a></div></div></div></footer></body></html>
