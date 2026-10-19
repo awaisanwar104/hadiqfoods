@@ -1,110 +1,278 @@
-// Makes the approved menu.html design interactive on top of cart.js:
-// Add buttons, portion toggles, filter chips and the "Your Feast" summary panel.
+// Menu page: loads dishes from the restaurant's Google Sheet and renders them in the
+// approved menu design, then wires them to the cart (cart.js).
+//
+// The sheet has two tabs, read by name: "Menu" (one row per dish) and "Categories".
+// If the sheet can't be reached, the last menu this browser saw is used, then menu-data.json.
 (function () {
+  var SHEET_ID = '1PNL5b2Qzfl7m1DxCXHavSzkez84Lcp0oKluZXymbZC4';
+  var CACHE_KEY = 'hadiq_menu_v1';
+
   var Cart = window.HadiqCart;
-  if (!Cart) return;
+  var root = document.getElementById('menuRoot');
+  var nav = document.getElementById('categoryNav');
+  var search = document.getElementById('menuSearchInput');
+  if (!Cart || !root) return;
 
-  var left = document.querySelector('.lg\\:col-span-8');
-  var TOGGLE_ON = ['bg-inverse-surface', 'text-inverse-on-surface', 'font-semibold', 'shadow-xs'];
-  var TOGGLE_OFF = ['text-on-surface-variant', 'hover:text-on-surface'];
-  // Price multipliers for portion options; anything not listed uses the card's price.
-  var PORTION_FACTOR = { '1.0 kg': 2 };
+  var esc = Cart.esc, rs = Cart.rs;
+  var dishes = [], categories = [];
+  var filter = 0, query = '';
 
-  // A dish card is the nearest ancestor holding both the dish name and its button(s).
-  function cardOf(el) {
-    while (el && el !== left && !(el.querySelector('h3, h4') && el.querySelector('button'))) el = el.parentElement;
-    return el === left ? null : el;
+  // ---------- Loading ----------
+  function sheetUrl(tab) {
+    return 'https://docs.google.com/spreadsheets/d/' + SHEET_ID + '/gviz/tq?tqx=out:csv&headers=1&sheet=' + encodeURIComponent(tab);
   }
-  function listedPrice(card) {
-    var walker = document.createTreeWalker(card, NodeFilter.SHOW_TEXT);
-    for (var n = walker.nextNode(); n; n = walker.nextNode()) {
-      var m = n.nodeValue.match(/Rs\.\s?([\d,]+)/);
-      if (m && !n.parentElement.closest('.line-through')) return { node: n, value: Number(m[1].replace(/,/g, '')) };
-    }
-    return null;
-  }
-  function toggleGroup(card) {
-    var btns = Array.prototype.filter.call(card.querySelectorAll('button'), function (b) {
-      return /^(Half kg|1\.0 kg|Single|Double Smash)$/.test(b.textContent.trim());
+  function fetchText(url) {
+    return fetch(url, { cache: 'no-store' }).then(function (r) {
+      if (!r.ok) throw new Error(r.status);
+      return r.text();
     });
-    return btns.length ? btns : null;
   }
-  function selected(group) {
-    return group.find(function (b) { return b.classList.contains('bg-inverse-surface'); }) || group[0];
-  }
-
-  // Remember each card's base price so portion changes can update the label.
-  left.querySelectorAll('h3, h4').forEach(function (h) {
-    var card = cardOf(h);
-    var p = listedPrice(card);
-    if (p) card.dataset.basePrice = p.value;
-  });
-
-  // Karahi cards list both portions ("Half kg / 1.0 kg · Rs. 980 | Rs. 1,850"):
-  // tapping the price block switches which portion is selected and shown large.
-  left.querySelectorAll('span').forEach(function (label) {
-    if (label.textContent.trim().toLowerCase() !== 'half kg / 1.0 kg') return;
-    var block = label.parentElement;
-    var price = block.querySelector('span.font-bold.text-primary');
-    var m = price && price.textContent.match(/Rs\.\s?([\d,]+)\s*\|\s*Rs\.\s?([\d,]+)/);
-    if (!m) return;
-    var portions = [['Half kg', Number(m[1].replace(/,/g, ''))], ['1.0 kg', Number(m[2].replace(/,/g, ''))]];
-    var card = cardOf(block);
-    card.dataset.portion = '0';
-    block.style.cursor = 'pointer';
-    block.title = 'Tap to switch between Half kg and 1.0 kg';
-    function show() {
-      var i = Number(card.dataset.portion), sel = portions[i], other = portions[1 - i];
-      label.innerHTML = i ? 'Half kg / <u>1.0 kg</u>' : '<u>Half kg</u> / 1.0 kg';
-      price.firstChild.nodeValue = Cart.rs(sel[1]) + ' ';
-      price.querySelector('span').textContent = '| ' + Cart.rs(other[1]);
+  function parseCsv(text) {
+    var rows = [], row = [], cell = '', q = false;
+    for (var i = 0; i < text.length; i++) {
+      var c = text[i];
+      if (q) {
+        if (c === '"' && text[i + 1] === '"') { cell += '"'; i++; }
+        else if (c === '"') q = false;
+        else cell += c;
+      } else if (c === '"') q = true;
+      else if (c === ',') { row.push(cell); cell = ''; }
+      else if (c === '\n' || c === '\r') {
+        if (c === '\r' && text[i + 1] === '\n') i++;
+        row.push(cell); rows.push(row); row = []; cell = '';
+      } else cell += c;
     }
-    block.addEventListener('click', function () { card.dataset.portion = String(1 - Number(card.dataset.portion)); show(); });
-    card.portions = portions;
-    show();
+    if (cell || row.length) { row.push(cell); rows.push(row); }
+    var head = (rows.shift() || []).map(function (h) { return h.trim(); });
+    return rows.map(function (r) {
+      var o = {};
+      head.forEach(function (h, i) { o[h] = (r[i] || '').trim(); });
+      return o;
+    });
+  }
+  function load() {
+    return Promise.all([fetchText(sheetUrl('Menu')), fetchText(sheetUrl('Categories'))])
+      .then(function (t) {
+        var data = { Menu: parseCsv(t[0]), Categories: parseCsv(t[1]) };
+        if (!data.Menu.length || !('Name' in data.Menu[0])) throw new Error('unexpected sheet format');
+        try { localStorage.setItem(CACHE_KEY, JSON.stringify(data)); } catch (e) {}
+        return data;
+      })
+      .catch(function () {
+        try {
+          var cached = JSON.parse(localStorage.getItem(CACHE_KEY));
+          if (cached) return cached;
+        } catch (e) {}
+        return fetchText('menu-data.json').then(JSON.parse);
+      });
+  }
+
+  // ---------- Data ----------
+  function num(v) { return Number(String(v || '').replace(/[^\d.]/g, '')) || 0; }
+  function yes(v) { return /^(yes|y|true|1)$/i.test(String(v).trim()); }
+  function slug(s) { return 'cat-' + s.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, ''); }
+
+  // "Small: 650, Medium: 1100"  ->  [{label:'Small', price:650}, ...]
+  function parseOptions(s) {
+    return String(s || '').split(',').map(function (part) {
+      var i = part.lastIndexOf(':');
+      if (i < 0) return null;
+      var label = part.slice(0, i).trim(), price = num(part.slice(i + 1));
+      return label && price ? { label: label, price: price } : null;
+    }).filter(Boolean);
+  }
+
+  // Cloudinary photos are requested resized; Google Drive share links become direct image links.
+  function photo(url) {
+    url = String(url || '').trim();
+    if (!/^https?:\/\//.test(url)) return '';
+    var m = url.match(/drive\.google\.com\/(?:file\/d\/|open\?id=|uc\?(?:export=\w+&)?id=)([\w-]+)/);
+    if (m) return 'https://lh3.googleusercontent.com/d/' + m[1] + '=w800';
+    if (/res\.cloudinary\.com\/.+\/image\/upload\//.test(url) && !/\/upload\/[a-z]_[^/]*\//.test(url)) {
+      return url.replace('/image/upload/', '/image/upload/f_auto,q_auto,c_limit,w_800/');
+    }
+    return url;
+  }
+
+  function prepare(data) {
+    categories = (data.Categories || []).filter(function (c) { return c.Category; })
+      .map(function (c, i) {
+        return { name: c.Category, emoji: c.Emoji || '', subtitle: c.Subtitle || '', order: num(c.Order) || 100 + i };
+      });
+    dishes = (data.Menu || []).filter(function (d) { return d.Name && yes(d.Available); })
+      .map(function (d, i) {
+        var options = parseOptions(d.Options);
+        return {
+          id: i,
+          category: d.Category || 'Menu',
+          name: d.Name,
+          description: d.Description || '',
+          price: num(d['Price (Rs)']) || (options[0] && options[0].price) || 0,
+          options: options,
+          oldPrice: num(d['Old Price (Rs)']),
+          badge: d.Badge || '',
+          note: d.Note || '',
+          photo: photo(d['Photo URL']),
+          featured: yes(d.Featured),
+          selected: 0
+        };
+      })
+      .filter(function (d) { return d.price > 0; });
+    // Categories used on the Menu tab but missing from the Categories tab still get a section.
+    dishes.forEach(function (d) {
+      if (!categories.some(function (c) { return c.name === d.category; })) {
+        categories.push({ name: d.category, emoji: '', subtitle: '', order: 1000 + categories.length });
+      }
+    });
+    categories.sort(function (a, b) { return a.order - b.order; });
+  }
+
+  // ---------- Rendering (markup follows the approved design) ----------
+  var TOGGLE_ON = 'bg-inverse-surface text-inverse-on-surface font-semibold shadow-xs';
+  var TOGGLE_OFF = 'text-on-surface-variant hover:text-on-surface';
+
+  function priceOf(d) { return d.options.length ? d.options[d.selected].price : d.price; }
+
+  function toggles(d) {
+    if (!d.options.length) return '';
+    return '<div class="flex flex-wrap items-center bg-surface-container-lowest rounded-lg p-0.5 text-label-sm font-label-sm gap-0.5">' +
+      d.options.map(function (o, i) {
+        return '<button type="button" data-opt="' + i + '" class="px-2.5 py-1 rounded-md ' + (i === d.selected ? TOGGLE_ON : TOGGLE_OFF) + '">' + esc(o.label) + '</button>';
+      }).join('') + '</div>';
+  }
+  function placeholder(size) {
+    return '<div class="w-full h-full flex items-center justify-center text-outline"><span class="material-symbols-outlined ' + size + '">restaurant</span></div>';
+  }
+  function img(d, cls, size) {
+    return d.photo
+      ? '<img alt="' + esc(d.name) + '" class="' + cls + '" loading="lazy" src="' + esc(d.photo) + '" onerror="this.outerHTML=\'' + placeholder(size).replace(/"/g, '&quot;') + '\'"/>'
+      : placeholder(size);
+  }
+  function oldPrice(d) {
+    return d.oldPrice > priceOf(d) ? '<span class="line-through text-on-surface-variant/70 text-body-md">' + rs(d.oldPrice) + '</span>' : '';
+  }
+
+  function featuredCard(d) {
+    return '<div class="bg-surface-container-lowest rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 flex flex-col justify-between group" data-dish="' + d.id + '">' +
+      '<div class="relative h-56 w-full overflow-hidden bg-surface-container">' +
+        img(d, 'w-full h-full object-cover group-hover:scale-105 transition-transform duration-500', 'text-[48px]') +
+        (d.badge ? '<div class="absolute top-3 left-3"><span class="bg-primary text-on-primary text-[11px] font-bold px-2.5 py-1 rounded-full uppercase">' + esc(d.badge) + '</span></div>' : '') +
+        (d.note ? '<div class="absolute bottom-3 right-3 bg-surface-container-lowest/90 backdrop-blur-md px-2.5 py-1 rounded-lg text-label-sm font-label-sm text-on-surface font-bold shadow-sm">' + esc(d.note) + '</div>' : '') +
+      '</div>' +
+      '<div class="p-space-md flex flex-col flex-1 justify-between"><div>' +
+        '<div class="flex items-center justify-between gap-3"><h3 class="font-title-md text-title-md font-bold text-on-surface">' + esc(d.name) + '</h3>' +
+        '<span class="text-label-md font-label-md text-primary font-bold whitespace-nowrap" data-price>' + rs(priceOf(d)) + '</span></div>' +
+        (d.description ? '<p class="font-body-md text-body-md text-on-surface-variant mt-1.5 leading-relaxed">' + esc(d.description) + '</p>' : '') +
+      '</div>' +
+      '<div class="mt-space-md pt-space-sm bg-surface-container-low p-2.5 rounded-xl flex items-center justify-between gap-2">' +
+        (toggles(d) || '<span>' + oldPrice(d) + '</span>') +
+        '<button type="button" data-add-dish class="bg-primary text-on-primary px-3.5 py-2 rounded-lg font-label-md text-label-md flex items-center gap-1.5 shadow-sm hover:bg-primary-container active:scale-95 transition-all flex-shrink-0"><span class="material-symbols-outlined text-[18px]">add</span> Add to Order</button>' +
+      '</div></div></div>';
+  }
+
+  function dishCard(d) {
+    return '<div class="bg-surface-container-lowest p-space-md rounded-2xl shadow-sm hover:shadow-md transition-shadow flex gap-space-md justify-between items-start" data-dish="' + d.id + '">' +
+      '<div class="flex-1 min-w-0">' +
+        '<h4 class="font-title-md text-title-md font-bold text-on-surface">' + esc(d.name) + '</h4>' +
+        (d.description ? '<p class="font-body-md text-body-md text-on-surface-variant mt-1 line-clamp-2">' + esc(d.description) + '</p>' : '') +
+        (d.options.length ? '<div class="mt-2.5 bg-surface-container-low p-1 rounded-lg w-fit max-w-full">' + toggles(d) + '</div>' : '') +
+        '<div class="flex flex-wrap items-center gap-x-3 gap-y-1 mt-3">' +
+          '<span class="font-headline-sm text-headline-sm font-bold text-primary" data-price>' + rs(priceOf(d)) + '</span>' + oldPrice(d) +
+          (d.note ? '<span class="text-[11px] font-semibold bg-surface-container text-tertiary px-2 py-0.5 rounded">' + esc(d.note) + '</span>' : '') +
+          (d.badge ? '<span class="text-[11px] font-semibold bg-secondary-container/30 text-on-secondary-container px-2 py-0.5 rounded">' + esc(d.badge) + '</span>' : '') +
+        '</div>' +
+      '</div>' +
+      '<div class="flex flex-col items-end gap-3 flex-shrink-0">' +
+        '<div class="w-20 h-20 rounded-xl overflow-hidden bg-surface-container">' + img(d, 'w-full h-full object-cover', 'text-[28px]') + '</div>' +
+        '<button type="button" data-add-dish aria-label="Add ' + esc(d.name) + '" class="bg-surface-container text-on-surface hover:bg-primary hover:text-on-primary w-9 h-9 rounded-xl flex items-center justify-center transition-colors shadow-xs"><span class="material-symbols-outlined text-[20px]">add</span></button>' +
+      '</div></div>';
+  }
+
+  function sectionHead(kicker, title, right) {
+    return '<div class="flex items-center justify-between mb-space-sm gap-3"><div>' +
+      (kicker ? '<span class="text-label-sm font-label-sm uppercase tracking-wider text-secondary font-bold">' + esc(kicker) + '</span>' : '') +
+      '<h2 class="font-headline-lg text-headline-lg text-on-surface font-bold tracking-tight">' + title + '</h2></div>' +
+      (right ? '<span class="text-label-sm font-label-sm text-tertiary whitespace-nowrap">' + esc(right) + '</span>' : '') + '</div>';
+  }
+
+  var SPICY = /spic|hot|chil|karahi|b-?b-?q|tikka|boti|masala/i;
+  var MIDNIGHT = /deal|combo|midnight|late|platter/i;
+  function matches(d) {
+    var text = [d.name, d.description, d.badge, d.note, d.category].join(' ');
+    if (query && text.toLowerCase().indexOf(query) === -1) return false;
+    if (filter === 2) return SPICY.test(text);
+    if (filter === 3) return MIDNIGHT.test(text);
+    return true;
+  }
+
+  function render() {
+    var shown = dishes.filter(matches);
+    var html = '';
+    var featured = shown.filter(function (d) { return d.featured; });
+    if (featured.length && !query && filter < 2) {
+      html += '<section class="scroll-mt-48" id="featured-section">' +
+        sectionHead('Chef\'s Signature', 'Featured Favourites', '') +
+        '<div class="grid grid-cols-1 md:grid-cols-2 gap-space-md mt-space-sm">' + featured.map(featuredCard).join('') + '</div></section>';
+    }
+    categories.forEach(function (c) {
+      var list = shown.filter(function (d) { return d.category === c.name && !(d.featured && !query && filter < 2); });
+      if (!list.length) return;
+      html += '<section class="scroll-mt-48" id="' + slug(c.name) + '">' +
+        sectionHead(c.subtitle, (c.emoji ? c.emoji + ' ' : '') + esc(c.name), list.length + (list.length === 1 ? ' item' : ' items')) +
+        '<div class="grid grid-cols-1 md:grid-cols-2 gap-space-md mt-space-sm">' + list.map(dishCard).join('') + '</div></section>';
+    });
+    root.innerHTML = html || '<div class="py-16 text-center text-on-surface-variant">No dishes match. Try a different search or filter.</div>';
+  }
+
+  var NAV_ON = 'bg-inverse-surface text-inverse-on-surface px-4 py-2 rounded-xl flex items-center gap-1.5 whitespace-nowrap shadow-sm';
+  var NAV_OFF = 'bg-surface-container text-on-surface hover:bg-surface-container-high px-3.5 py-2 rounded-xl flex items-center gap-1.5 whitespace-nowrap transition-colors';
+  function renderNav() {
+    if (!nav) return;
+    var links = [];
+    if (dishes.some(function (d) { return d.featured; })) links.push(['featured-section', '⚡', 'Featured', 0]);
+    categories.forEach(function (c) {
+      var n = dishes.filter(function (d) { return d.category === c.name && !d.featured; }).length;
+      if (n) links.push([slug(c.name), c.emoji, c.name, n]);
+    });
+    nav.innerHTML = links.map(function (l, i) {
+      return '<a class="' + (i ? NAV_OFF : NAV_ON) + '" href="#' + l[0] + '">' + (l[1] ? '<span>' + l[1] + '</span> ' : '') + esc(l[2]) +
+        (l[3] ? ' <span class="bg-surface-container-highest px-1.5 py-0.5 rounded text-[11px] text-tertiary">' + l[3] + '</span>' : '') + '</a>';
+    }).join('');
+  }
+  if (nav) nav.addEventListener('click', function (e) {
+    var a = e.target.closest('a');
+    if (!a) return;
+    nav.querySelectorAll('a').forEach(function (x) { x.className = x === a ? NAV_ON : NAV_OFF; });
   });
 
-  left.addEventListener('click', function (e) {
-    var btn = e.target.closest('button');
-    if (!btn || !left.contains(btn)) return;
-    var card = cardOf(btn);
+  // ---------- Interaction ----------
+  root.addEventListener('click', function (e) {
+    var card = e.target.closest('[data-dish]');
     if (!card) return;
-    var group = toggleGroup(card);
-
-    // Portion / patty toggle
-    if (group && group.indexOf(btn) !== -1) {
-      group.forEach(function (b) {
-        TOGGLE_ON.forEach(function (c) { b.classList.toggle(c, b === btn); });
-        TOGGLE_OFF.forEach(function (c) { b.classList.toggle(c, b !== btn); });
+    var d = dishes[Number(card.dataset.dish)];
+    var opt = e.target.closest('[data-opt]');
+    if (opt) {
+      d.selected = Number(opt.dataset.opt);
+      card.querySelectorAll('[data-opt]').forEach(function (b) {
+        b.className = 'px-2.5 py-1 rounded-md ' + (Number(b.dataset.opt) === d.selected ? TOGGLE_ON : TOGGLE_OFF);
       });
-      var p = listedPrice(card);
-      var price = Number(card.dataset.basePrice) * (PORTION_FACTOR[btn.textContent.trim()] || 1);
-      if (p) p.node.nodeValue = p.node.nodeValue.replace(/Rs\.\s?[\d,]+/, Cart.rs(price));
-      var unit = p && p.node.parentElement.querySelector('span');
-      if (unit && /kg/.test(unit.textContent)) unit.textContent = btn.textContent.trim() === '1.0 kg' ? '/ 1kg' : '/ 0.5kg';
+      card.querySelector('[data-price]').textContent = rs(priceOf(d));
       return;
     }
-
-    // Any other button in a dish card adds that dish
-    var name = card.querySelector('h3, h4').textContent.trim();
-    var base = Number(card.dataset.basePrice);
-    if (!base) return;
-    if (card.portions) {
-      var sel = card.portions[Number(card.dataset.portion)];
-      Cart.add(name, sel[1], sel[0]);
-    } else if (group) {
-      var opt = selected(group).textContent.trim();
-      Cart.add(name, base * (PORTION_FACTOR[opt] || 1), opt);
-    } else {
-      Cart.add(name, base);
+    if (e.target.closest('[data-add-dish]')) {
+      Cart.add(d.name, priceOf(d), d.options.length ? d.options[d.selected].label : undefined);
     }
   });
 
-  // Filter chips: All / Halal show everything; Spicy = BBQ & karahi; Midnight = deals & fast food.
+  if (search) search.addEventListener('input', function () {
+    query = search.value.toLowerCase().trim();
+    render();
+  });
+
+  // Filter chips: All / Halal show everything; Spicy = BBQ, karahi & spicy dishes; Midnight Deals = deals & combos.
   var chips = Array.prototype.slice.call(document.querySelectorAll('.sticky button')).slice(0, 4);
   var CHIP_ON = ['bg-primary', 'text-on-primary', 'shadow-sm'];
   var CHIP_OFF = ['bg-surface-container', 'text-on-surface', 'hover:bg-surface-container-high'];
-  var FILTERS = [null, null, ['bbq-section', 'karahi-section'], ['deals-section', 'burgers-section']];
   chips.forEach(function (chip, i) {
     chip.type = 'button';
     chip.addEventListener('click', function () {
@@ -112,14 +280,13 @@
         CHIP_ON.forEach(function (k) { c.classList.toggle(k, c === chip); });
         CHIP_OFF.forEach(function (k) { c.classList.toggle(k, c !== chip); });
       });
-      left.querySelectorAll(':scope > section').forEach(function (sec) {
-        sec.style.display = !FILTERS[i] || FILTERS[i].indexOf(sec.id) !== -1 ? '' : 'none';
-      });
-      window.scrollTo({ top: left.getBoundingClientRect().top + window.scrollY - 230, behavior: 'smooth' });
+      filter = i;
+      render();
+      window.scrollTo({ top: root.getBoundingClientRect().top + window.scrollY - 230, behavior: 'smooth' });
     });
   });
 
-  // "Your Feast" panel
+  // ---------- "Your Feast" panel ----------
   var items = document.querySelector('[data-feast-items]');
   var countEl = document.querySelector('[data-feast-count]');
   var subEl = document.querySelector('[data-feast-subtotal]');
@@ -136,18 +303,18 @@
     var lines = Cart.items();
     var n = Cart.count();
     countEl.textContent = n + (n === 1 ? ' Item' : ' Items');
-    subEl.textContent = Cart.rs(Cart.total());
-    totalEl.textContent = Cart.rs(Cart.total());
+    subEl.textContent = rs(Cart.total());
+    totalEl.textContent = rs(Cart.total());
     if (!lines.length) {
       items.innerHTML = '<div class="py-6 text-center text-body-md text-on-surface-variant">Your cart is empty — tap <strong>Add</strong> on any dish.</div>';
       return;
     }
     items.innerHTML = lines.map(function (l) {
-      var id = Cart.esc(l.id);
+      var id = esc(l.id);
       return '<div class="py-3 flex items-start justify-between gap-2"><div class="flex-1">' +
         '<div class="font-label-md text-label-md font-bold text-on-surface">' + id + '</div>' +
-        '<div class="text-[12px] text-tertiary">' + l.qty + ' × ' + Cart.rs(l.price) + '</div>' +
-        '<div class="text-label-md font-label-md font-bold text-primary mt-1">' + Cart.rs(l.qty * l.price) + '</div></div>' +
+        '<div class="text-[12px] text-tertiary">' + l.qty + ' × ' + rs(l.price) + '</div>' +
+        '<div class="text-label-md font-label-md font-bold text-primary mt-1">' + rs(l.qty * l.price) + '</div></div>' +
         '<div class="flex items-center bg-surface-container rounded-lg p-1 gap-2 flex-shrink-0">' +
         '<button type="button" data-qty="-1" data-id="' + id + '" aria-label="Remove one" class="w-6 h-6 flex items-center justify-center text-on-surface hover:bg-surface-container-highest rounded text-sm font-bold">−</button>' +
         '<span class="text-label-md font-label-md font-bold w-4 text-center">' + l.qty + '</span>' +
@@ -155,17 +322,23 @@
         '</div></div>';
     }).join('');
   }
-  function renderAddress() {
-    addrEl.textContent = Cart.form.address || 'Add your address';
-  }
+  function renderAddress() { addrEl.textContent = Cart.form.address || 'Add your address'; }
 
   document.querySelector('[data-feast-change]').addEventListener('click', function () {
     var a = window.prompt('Delivery address', Cart.form.address);
     if (a !== null) { Cart.form.address = a.trim(); Cart.form.type = 'Delivery'; renderAddress(); }
   });
   note.addEventListener('input', function () { Cart.form.notes = note.value; });
-
   document.addEventListener('hadiq:cart', renderFeast);
   renderFeast();
   renderAddress();
+
+  // ---------- Go ----------
+  load().then(function (data) {
+    prepare(data);
+    renderNav();
+    render();
+  }).catch(function () {
+    root.innerHTML = '<div class="py-16 text-center text-on-surface-variant">Sorry, the menu could not be loaded. Please refresh, or order on WhatsApp: <a class="text-primary font-bold" href="https://wa.me/923000341185">0300-0341185</a>.</div>';
+  });
 })();
