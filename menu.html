@@ -1,0 +1,882 @@
+<!DOCTYPE html>
+
+<html lang="en"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0" name="viewport"/><meta content="web_standard" name="shell-type"/><link href="https://fonts.googleapis.com" rel="preconnect"/><link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/><link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&amp;family=Plus+Jakarta+Sans:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/><style>@layer base{html,body{margin:0;padding:0;}body{overscroll-behavior:none;}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}</style><script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script><script id="tailwind-config">
+  tailwind.config = {
+    darkMode: "class",
+    theme: {
+      extend: {
+        "colors": {
+          "secondary-fixed-dim": "#ffba46",
+          "on-background": "#1b1c1a",
+          "surface-container-lowest": "#ffffff",
+          "on-primary-fixed": "#410002",
+          "primary-fixed-dim": "#ffb4ab",
+          "primary": "#a0000f",
+          "tertiary-fixed": "#e4e1e6",
+          "error": "#ba1a1a",
+          "on-surface": "#1b1c1a",
+          "surface": "#fbf9f5",
+          "surface-container": "#efeeea",
+          "surface-dim": "#dbdad6",
+          "surface-bright": "#fbf9f5",
+          "outline-variant": "#e5bdb9",
+          "on-primary": "#ffffff",
+          "inverse-on-surface": "#f2f0ed",
+          "on-secondary-container": "#6c4800",
+          "on-tertiary": "#ffffff",
+          "on-primary-fixed-variant": "#93000d",
+          "tertiary": "#4e4d51",
+          "tertiary-container": "#666569",
+          "surface-container-low": "#f5f3ef",
+          "surface-tint": "#be0b17",
+          "tertiary-fixed-dim": "#c8c5ca",
+          "on-surface-variant": "#5c403c",
+          "secondary": "#805600",
+          "on-secondary-fixed": "#281800",
+          "secondary-fixed": "#ffddb0",
+          "on-error-container": "#93000a",
+          "secondary-container": "#feb228",
+          "on-tertiary-fixed": "#1b1b1e",
+          "inverse-primary": "#ffb4ab",
+          "primary-fixed": "#ffdad6",
+          "error-container": "#ffdad6",
+          "on-tertiary-container": "#e6e3e7",
+          "surface-variant": "#e4e2de",
+          "background": "#fbf9f5",
+          "surface-container-high": "#eae8e4",
+          "on-secondary": "#ffffff",
+          "on-tertiary-fixed-variant": "#47464a",
+          "on-primary-container": "#ffdcd8",
+          "inverse-surface": "#30312e",
+          "surface-container-highest": "#e4e2de",
+          "on-error": "#ffffff",
+          "primary-container": "#c9181e",
+          "on-secondary-fixed-variant": "#614000",
+          "outline": "#916f6b"
+        },
+        "borderRadius": {
+          "DEFAULT": "0.25rem",
+          "lg": "0.5rem",
+          "xl": "0.75rem",
+          "full": "9999px"
+        },
+        "spacing": {
+          "space-xl": "2.5rem",
+          "gutter-mobile": "0.75rem",
+          "space-md": "1rem",
+          "space-xs": "0.25rem",
+          "margin": "2rem",
+          "space-sm": "0.5rem",
+          "gutter": "1.25rem",
+          "margin-mobile": "1rem",
+          "space-lg": "1.5rem"
+        },
+        "fontFamily": {
+          "body-md": ["Plus Jakarta Sans"],
+          "headline-lg-mobile": ["Outfit"],
+          "label-md": ["Plus Jakarta Sans"],
+          "display-lg-mobile": ["Outfit"],
+          "label-lg": ["Plus Jakarta Sans"],
+          "headline-md": ["Outfit"],
+          "body-lg": ["Plus Jakarta Sans"],
+          "headline-sm": ["Outfit"],
+          "display-lg": ["Outfit"],
+          "label-sm": ["Plus Jakarta Sans"],
+          "headline-lg": ["Outfit"],
+          "title-md": ["Plus Jakarta Sans"]
+        },
+        "fontSize": {
+          "body-md": ["14px", { "lineHeight": "20px", "fontWeight": "400" }],
+          "headline-lg-mobile": ["26px", { "lineHeight": "34px", "letterSpacing": "-0.01em", "fontWeight": "700" }],
+          "label-md": ["12px", { "lineHeight": "16px", "letterSpacing": "0.02em", "fontWeight": "600" }],
+          "display-lg-mobile": ["36px", { "lineHeight": "44px", "letterSpacing": "-0.01em", "fontWeight": "700" }],
+          "label-lg": ["14px", { "lineHeight": "20px", "letterSpacing": "0.01em", "fontWeight": "600" }],
+          "headline-md": ["24px", { "lineHeight": "32px", "fontWeight": "600" }],
+          "body-lg": ["16px", { "lineHeight": "24px", "fontWeight": "400" }],
+          "headline-sm": ["20px", { "lineHeight": "28px", "fontWeight": "600" }],
+          "display-lg": ["48px", { "lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+          "label-sm": ["11px", { "lineHeight": "14px", "letterSpacing": "0.04em", "fontWeight": "700" }],
+          "headline-lg": ["32px", { "lineHeight": "40px", "letterSpacing": "-0.01em", "fontWeight": "700" }],
+          "title-md": ["18px", { "lineHeight": "26px", "fontWeight": "600" }]
+        }
+      }
+    }
+  };
+</script></head><body class="bg-background font-body-md text-on-surface antialiased selection:bg-secondary-container selection:text-on-secondary-container"><header class="fixed top-0 left-0 right-0 z-50 bg-surface/95 backdrop-blur-md border-b border-surface-container-high shadow-[0_4px_25px_rgba(26,26,30,0.06)]"><div class="bg-primary text-on-primary px-4 md:px-margin py-space-xs"><div class="max-w-7xl mx-auto flex items-center justify-between text-label-md font-label-md"><div class="flex items-center gap-space-sm overflow-hidden text-ellipsis whitespace-nowrap"><span class="bg-secondary-container text-on-secondary-container px-2 py-0.5 rounded font-label-sm text-[11px] font-bold uppercase tracking-wider">LAHORE SPECIAL</span><span class="font-medium text-white/95">🔥 Live Charcoal BBQ, Shinwari Karahi &amp; Sizzling Smash Burgers</span><span class="opacity-40">|</span><span>📞 Hotline: +92 321 4455667</span></div><div class="hidden sm:flex items-center gap-space-md"><span class="flex items-center gap-space-xs text-white/90"><span class="material-symbols-outlined text-[15px]">schedule</span> Open till 3:30 AM</span><span class="bg-black/25 text-white border border-white/20 px-2 py-0.5 rounded font-label-sm text-label-sm flex items-center gap-1"><span class="material-symbols-outlined text-[13px] text-secondary-container">verified</span> 100% HALAL CERTIFIED</span></div></div></div><div class="h-20 max-w-7xl mx-auto px-4 md:px-margin flex items-center justify-between gap-space-md"><div class="flex items-center gap-space-md flex-shrink-0"><a class="flex items-center gap-3" data-path="home" href="#"><img alt="Hadiq Foods Logo" class="h-10 w-auto object-contain" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDXGqz4pVbs_wdjkC-pqhVEh2nKWqgIUMvQZWF3w_pMfxVm0TeM3TrJl6QilxuDAlywM79QWmDNRr8VS6GFL39E2Utcvd1KunsUvUP5o-nBb4owpmx_qBiMZZkZ3Fvp-ugXBaAlBPKg1OcAfA7r6ojP8fNVTaSnBPTprxxjIrsgurxyuB22Uagd6G47RCQJtlbb6BlXco7axuJkh6k42qE8mM0DTcV-zem3wyKL2Fj5cKONKgs_AIJpug"/><div class="flex flex-col"><span class="font-headline-md text-headline-md tracking-tight text-primary font-bold leading-none">Hadiq<span class="text-secondary-container">Foods</span></span><span class="text-[10px] tracking-widest uppercase font-semibold text-tertiary">BBQ • Karahi • Fast Food</span></div></a><div class="hidden xl:flex items-center bg-surface-container rounded-full p-1 border border-outline-variant/30"><button class="bg-on-surface text-surface px-space-sm py-1 rounded-full text-label-md font-label-md shadow-sm" type="button">Delivery</button><button class="px-space-sm py-1 text-on-surface-variant hover:text-on-surface text-label-md font-label-md transition-colors" type="button">Takeaway</button></div><div class="hidden lg:flex items-center gap-space-xs text-body-sm font-body-sm bg-surface-container-low px-space-sm py-1.5 rounded-lg border border-outline-variant/30 text-on-surface-variant"><span class="material-symbols-outlined text-primary text-[18px]">location_on</span><span class="font-semibold text-on-surface">Shalimar Town / Baghbanpura, Lahore</span><span class="material-symbols-outlined text-[16px]">expand_more</span></div></div><div class="hidden md:flex flex-1 max-w-xs xl:max-w-sm relative"><input class="w-full bg-surface-container-low text-on-surface placeholder:text-on-surface-variant/70 text-body-sm font-body-sm pl-9 pr-3 py-2 rounded-xl border border-outline-variant/40 focus:outline-none focus:ring-2 focus:ring-primary/40 focus:border-primary transition-all" placeholder="Search Mutton Karahi, Seekh Kabab, Smash Burgers..." type="text"/><span class="material-symbols-outlined absolute left-2.5 top-2.5 text-on-surface-variant text-[18px]">search</span></div><nav class="hidden lg:flex items-center gap-1" data-active-classes="bg-primary text-on-primary font-label-lg rounded-lg shadow-sm"><a class="px-3 py-1.5 rounded-lg text-on-surface-variant hover:text-on-surface font-label-md text-label-md transition-colors" data-path="home" href="/">Home</a><a aria-current="page" class="px-3 py-1.5 transition-colors bg-primary text-on-primary font-label-lg rounded-lg shadow-sm" data-path="full-menu" href="menu.html">Full Menu</a><a class="px-3 py-1.5 rounded-lg text-on-surface-variant hover:text-on-surface font-label-md text-label-md transition-colors" data-path="bbq-karahi" href="#karahi-section">BBQ &amp; Karahi</a><a class="px-3 py-1.5 rounded-lg text-on-surface-variant hover:text-on-surface font-label-md text-label-md transition-colors" data-path="fast-food" href="#burgers-section">Fast Food</a><a class="px-3 py-1.5 rounded-lg text-on-surface-variant hover:text-on-surface font-label-md text-label-md transition-colors" data-path="combos-deals" href="#deals-section">Combos &amp; Deals</a><a class="px-3 py-1.5 rounded-lg text-on-surface-variant hover:text-on-surface font-label-md text-label-md transition-colors" data-path="track-order" href="#">Track Order</a></nav><div class="flex items-center gap-space-sm flex-shrink-0"><a class="bg-primary text-on-primary px-space-md py-2.5 rounded-xl font-label-lg text-label-lg flex items-center gap-space-xs shadow-[0_4px_14px_rgba(160,0,15,0.35)] hover:bg-primary-container active:scale-95 transition-all" data-path="cart-checkout" href="#"><span class="material-symbols-outlined text-[20px]">shopping_bag</span><span>Cart (2)</span><span class="hidden sm:inline font-bold border-l border-white/30 pl-2">Rs. 2,630</span></a><div class="w-9 h-9 rounded-full bg-surface-container-high border border-outline-variant/40 flex items-center justify-center cursor-pointer hover:bg-surface-container-highest transition-colors"><span class="material-symbols-outlined text-on-surface text-[19px]">person</span></div></div></div></header><main class="w-full pt-20 bg-background"><div class="flex flex-col w-full">
+<!-- Sticky Culinary Filter Sub-Header -->
+<div class="sticky top-20 z-40 bg-surface/95 backdrop-blur-md shadow-sm border-b border-surface-container-high">
+<div class="max-w-7xl mx-auto px-4 md:px-margin py-3 flex flex-col gap-2.5">
+<!-- Search and Quick Badges Row -->
+<div class="flex flex-col sm:flex-row items-center justify-between gap-3">
+<div class="relative w-full sm:max-w-md">
+<input class="w-full bg-surface-container-low text-on-surface placeholder:text-on-surface-variant/70 text-body-md font-body-md pl-10 pr-4 py-2 rounded-xl border-0 focus:ring-2 focus:ring-primary shadow-inner" id="menuSearchInput" placeholder="Search karahi, kabab, burger, garlic naan, platters..." type="text"/>
+<span class="material-symbols-outlined absolute left-3 top-2.5 text-on-surface-variant text-[18px]">search</span>
+</div>
+<!-- Filter Chips -->
+<div class="flex items-center gap-2 overflow-x-auto w-full sm:w-auto pb-1 sm:pb-0 scrollbar-none">
+<button class="bg-primary text-on-primary px-3 py-1.5 rounded-full text-label-md font-label-md flex items-center gap-1 shadow-sm whitespace-nowrap">
+<span class="material-symbols-outlined text-[15px]" style="font-variation-settings: 'FILL' 1;">stars</span> All Specials
+          </button>
+<button class="bg-surface-container text-on-surface hover:bg-surface-container-high px-3 py-1.5 rounded-full text-label-md font-label-md flex items-center gap-1 transition-colors whitespace-nowrap">
+<span class="material-symbols-outlined text-primary text-[15px]">verified</span> 100% Halal
+          </button>
+<button class="bg-surface-container text-on-surface hover:bg-surface-container-high px-3 py-1.5 rounded-full text-label-md font-label-md flex items-center gap-1 transition-colors whitespace-nowrap">
+<span class="material-symbols-outlined text-error text-[15px]">local_fire_department</span> Desi Spicy 🌶️
+          </button>
+<button class="bg-surface-container text-on-surface hover:bg-surface-container-high px-3 py-1.5 rounded-full text-label-md font-label-md flex items-center gap-1 transition-colors whitespace-nowrap">
+<span class="material-symbols-outlined text-secondary text-[15px]">bedtime</span> Midnight Deals 🌙
+          </button>
+</div>
+</div>
+<!-- Category Pills Horizontal Scroll -->
+<nav class="flex items-center gap-2 overflow-x-auto pb-1 text-label-md font-label-md scrollbar-none" id="categoryNav">
+<a class="bg-inverse-surface text-inverse-on-surface px-4 py-2 rounded-xl flex items-center gap-1.5 whitespace-nowrap shadow-sm" href="#featured-section">
+<span>⚡</span> Coal &amp; Griddle Specials
+        </a>
+<a class="bg-surface-container text-on-surface hover:bg-surface-container-high px-3.5 py-2 rounded-xl flex items-center gap-1.5 whitespace-nowrap transition-colors" href="#bbq-section">
+<span>🔥</span> Charcoal BBQ &amp; Tikka <span class="bg-surface-container-highest px-1.5 py-0.5 rounded text-[11px] text-tertiary">12</span>
+</a>
+<a class="bg-surface-container text-on-surface hover:bg-surface-container-high px-3.5 py-2 rounded-xl flex items-center gap-1.5 whitespace-nowrap transition-colors" href="#karahi-section">
+<span>🥘</span> Shinwari &amp; Desi Karahi <span class="bg-surface-container-highest px-1.5 py-0.5 rounded text-[11px] text-tertiary">9</span>
+</a>
+<a class="bg-surface-container text-on-surface hover:bg-surface-container-high px-3.5 py-2 rounded-xl flex items-center gap-1.5 whitespace-nowrap transition-colors" href="#burgers-section">
+<span>🍔</span> Smash Burgers &amp; Fried <span class="bg-surface-container-highest px-1.5 py-0.5 rounded text-[11px] text-tertiary">10</span>
+</a>
+<a class="bg-surface-container text-on-surface hover:bg-surface-container-high px-3.5 py-2 rounded-xl flex items-center gap-1.5 whitespace-nowrap transition-colors" href="#tandoor-section">
+<span>🫓</span> Hot Clay Tandoor &amp; Naans <span class="bg-surface-container-highest px-1.5 py-0.5 rounded text-[11px] text-tertiary">6</span>
+</a>
+<a class="bg-surface-container text-on-surface hover:bg-surface-container-high px-3.5 py-2 rounded-xl flex items-center gap-1.5 whitespace-nowrap transition-colors" href="#deals-section">
+<span>👑</span> Family Dawat Combos <span class="bg-surface-container-highest px-1.5 py-0.5 rounded text-[11px] text-tertiary">4</span>
+</a>
+</nav>
+</div>
+</div>
+<!-- Primary Page Body: 2-Column Desktop Grid -->
+<div class="max-w-7xl mx-auto px-4 md:px-margin py-space-md w-full">
+<!-- Notice Bar for Lahore Delivery -->
+<div class="bg-secondary-fixed/40 rounded-2xl p-space-sm mb-space-md flex flex-wrap items-center justify-between gap-3 text-body-md font-body-md">
+<div class="flex items-center gap-2 text-on-secondary-fixed">
+<span class="material-symbols-outlined text-secondary text-[22px]" style="font-variation-settings: 'FILL' 1;">electric_moped</span>
+<span>Delivering sizzling hot across <strong>Shalimar, Baghbanpura, Mughalpura, Cantt &amp; DHA</strong></span>
+</div>
+<div class="flex items-center gap-2">
+<span class="text-label-sm font-label-sm uppercase tracking-wide bg-surface-container-lowest/80 text-secondary px-2.5 py-1 rounded-full">Average Delivery 32 Mins</span>
+</div>
+</div>
+<!-- Main Grid -->
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-space-lg items-start">
+<!-- Left Column: Menu Items (70-72%) -->
+<div class="lg:col-span-8 flex flex-col gap-space-xl">
+<!-- FEATURED SPECIALS: Coal & Griddle -->
+<section class="scroll-mt-40" id="featured-section">
+<div class="flex items-center justify-between mb-space-sm">
+<div>
+<div class="flex items-center gap-2">
+<span class="text-label-sm font-label-sm uppercase tracking-wider text-primary font-bold">Chef's Signature</span>
+<span class="bg-secondary-container text-on-secondary-container px-2 py-0.5 rounded font-label-sm text-label-sm">High Flame Tawa &amp; Sigri</span>
+</div>
+<h2 class="font-headline-lg text-headline-lg text-on-surface font-bold tracking-tight mt-0.5">Today's Coal &amp; Griddle Specials</h2>
+</div>
+</div>
+<!-- Hero Grid Cards (Dual Spotlight) -->
+<div class="grid grid-cols-1 md:grid-cols-2 gap-space-md mt-space-sm">
+<!-- Card 1: Shinwari Karahi -->
+<div class="bg-surface-container-lowest rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 flex flex-col justify-between group">
+<div class="relative h-56 w-full overflow-hidden bg-surface-container">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="Authentic Lahori Shinwari Mutton Karahi cooked in black cast iron wok on charcoal flame with fresh sliced ginger juliennes, green chilies, coriander and fragrant desi ghee aroma on a rustic wooden restaurant table with tandoori naan in the background" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAH8LYYDJOklf_N23AYzViRlhE-quKW8cWY4ZSnmTCRlbhmAlp9s5GOTbEP6xN0ckRCfra8oEJl2tXgskB5lA4dhqY0XRaHZRIvkYICoTtk5EhAjIfWTUUwGn3meEz6CteYSdy80KFzoWvFMClkVDxZ7-H1IVDxaUGjhF2OY7cNA3ZIVXW8ReHZe_P66kdyAQR3sgz6zOrtPEuhpqS3QmbbhPdT5lvg5wkk-R3CAbwJX3_Wux3pxBE0Sw"/>
+<div class="absolute top-3 left-3 flex flex-wrap gap-1.5">
+<span class="bg-black/70 backdrop-blur-md text-white text-[11px] font-bold px-2.5 py-1 rounded-full flex items-center gap-1">
+<span class="material-symbols-outlined text-[13px] text-secondary-container">whatshot</span> Slow Charcoal Simmer
+                  </span>
+<span class="bg-primary text-on-primary text-[11px] font-bold px-2.5 py-1 rounded-full">BESTSELLER</span>
+</div>
+<div class="absolute bottom-3 right-3 bg-surface-container-lowest/90 backdrop-blur-md px-2.5 py-1 rounded-lg text-label-sm font-label-sm text-on-surface font-bold shadow-sm">
+                  100% Desi Ghee
+                </div>
+</div>
+<div class="p-space-md flex flex-col flex-1 justify-between">
+<div>
+<div class="flex items-center justify-between">
+<h3 class="font-title-md text-title-md font-bold text-on-surface">Shinwari Mutton Karahi</h3>
+<span class="text-label-md font-label-md text-primary font-bold">Rs. 1,650 <span class="text-tertiary text-xs font-normal">/ 0.5kg</span></span>
+</div>
+<p class="font-body-md text-body-md text-on-surface-variant mt-1.5 leading-relaxed">
+                    Tender grass-fed mutton prepared Shinwari style with thick ripe tomatoes, organic black pepper, sea salt, and ginger in pure desi butter. No heavy spices.
+                  </p>
+</div>
+<!-- Portion Selector & Add Button -->
+<div class="mt-space-md pt-space-sm bg-surface-container-low p-2.5 rounded-xl flex items-center justify-between gap-2">
+<div class="flex items-center bg-surface-container-lowest rounded-lg p-0.5 text-label-sm font-label-sm">
+<button class="px-2.5 py-1 rounded-md bg-inverse-surface text-inverse-on-surface font-semibold shadow-xs">Half kg</button>
+<button class="px-2.5 py-1 rounded-md text-on-surface-variant hover:text-on-surface">1.0 kg</button>
+</div>
+<button class="bg-primary text-on-primary px-3.5 py-2 rounded-lg font-label-md text-label-md flex items-center gap-1.5 shadow-sm hover:bg-primary-container active:scale-95 transition-all">
+<span class="material-symbols-outlined text-[18px]">add</span> Add to Order
+                  </button>
+</div>
+</div>
+</div>
+<!-- Card 2: Monster Smash Burger -->
+<div class="bg-surface-container-lowest rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 flex flex-col justify-between group">
+<div class="relative h-56 w-full overflow-hidden bg-surface-container">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="Triple beef smash burger with melted golden cheddar cheese cascading over crispy caramelized lacy beef edges, fresh pickles, shredded crisp lettuce, smoked house secret sauce on a toasted glossy brioche bun shot in dramatic culinary lighting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBgp10BspFtfaIHEEIcpNRR5n0MzPLtl9bEHaTpI-89qO2H_tvQwwwUyf60cpcmXkAWsjWdSP2rbkOWjgrHhzv1hnKw_rzKR7pIW6TBsd1_kPNybzuuqq8kzhT5d0LhGRdjFcSqEgV_41F9ydF05vsPEPKF3Gq7WPeqJAnhfbRgcN_cwLX6aGjvPZkn6BvAgaxolpEQcK8ER5LbXm7Joug62b-pDt0Y85d33Es7setScK729xT7h17kQg"/>
+<div class="absolute top-3 left-3 flex flex-wrap gap-1.5">
+<span class="bg-secondary text-white text-[11px] font-bold px-2.5 py-1 rounded-full flex items-center gap-1">
+<span class="material-symbols-outlined text-[13px]">lunch_dining</span> Fresh Ground Daily
+                  </span>
+<span class="bg-surface-container-highest/90 backdrop-blur text-on-surface text-[11px] font-bold px-2 py-1 rounded-full">LATE NIGHT HIT</span>
+</div>
+<div class="absolute bottom-3 right-3 bg-surface-container-lowest/90 backdrop-blur-md px-2.5 py-1 rounded-lg text-label-sm font-label-sm text-on-surface font-bold shadow-sm">
+                  Brioche Bun
+                </div>
+</div>
+<div class="p-space-md flex flex-col flex-1 justify-between">
+<div>
+<div class="flex items-center justify-between">
+<h3 class="font-title-md text-title-md font-bold text-on-surface">Hadiq Monster Smash</h3>
+<span class="text-label-md font-label-md text-primary font-bold">Rs. 790</span>
+</div>
+<p class="font-body-md text-body-md text-on-surface-variant mt-1.5 leading-relaxed">
+                    Double smashed beef patties with crispy lacy crust, double molten Wisconsin cheddar, tangy pickled jalapeños, grilled sweet onions &amp; smokey Hadiq sauce.
+                  </p>
+</div>
+<!-- Patty Choice & CTA -->
+<div class="mt-space-md pt-space-sm bg-surface-container-low p-2.5 rounded-xl flex items-center justify-between gap-2">
+<div class="flex items-center bg-surface-container-lowest rounded-lg p-0.5 text-label-sm font-label-sm">
+<button class="px-2.5 py-1 rounded-md text-on-surface-variant hover:text-on-surface">Single</button>
+<button class="px-2.5 py-1 rounded-md bg-inverse-surface text-inverse-on-surface font-semibold shadow-xs">Double Smash</button>
+</div>
+<button class="bg-primary text-on-primary px-3.5 py-2 rounded-lg font-label-md text-label-md flex items-center gap-1.5 shadow-sm hover:bg-primary-container active:scale-95 transition-all">
+<span class="material-symbols-outlined text-[18px]">add</span> Add to Order
+                  </button>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- SECTION 1: Live Charcoal BBQ & Skewers -->
+<section class="scroll-mt-40" id="bbq-section">
+<div class="flex items-center justify-between mb-space-sm">
+<div>
+<div class="flex items-center gap-2">
+<span class="text-label-sm font-label-sm uppercase tracking-wider text-secondary font-bold">Smoked over Babool Coals</span>
+</div>
+<h2 class="font-headline-lg text-headline-lg text-on-surface font-bold tracking-tight">Live Charcoal BBQ &amp; Skewers</h2>
+</div>
+<span class="text-label-sm font-label-sm text-tertiary">Served with Zeera Raita &amp; Kachumber</span>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-space-md mt-space-sm">
+<!-- BBQ Item 1: Malai Boti -->
+<div class="bg-surface-container-lowest p-space-md rounded-2xl shadow-sm hover:shadow-md transition-shadow flex gap-space-md justify-between items-start">
+<div class="flex-1">
+<div class="flex items-center gap-1.5">
+<span class="text-xs">🍗</span>
+<h4 class="font-title-md text-title-md font-bold text-on-surface">Chicken Malai Boti</h4>
+</div>
+<p class="font-body-md text-body-md text-on-surface-variant mt-1 line-clamp-2">
+                  Silky boneless chicken tenders marinated overnight in fresh cream, cardamom, mild white pepper, and green coriander.
+                </p>
+<div class="flex items-center gap-3 mt-3">
+<span class="font-headline-sm text-headline-sm font-bold text-primary">Rs. 890</span>
+<span class="text-[11px] font-semibold bg-surface-container text-tertiary px-2 py-0.5 rounded">6 Skewered Cubes</span>
+</div>
+</div>
+<div class="flex flex-col items-end gap-3 flex-shrink-0">
+<div class="w-20 h-20 rounded-xl overflow-hidden bg-surface-container">
+<img class="w-full h-full object-cover" data-alt="Tender creamy Pakistani Chicken Malai Boti skewers lightly charred on outdoor charcoal grill garnished with lemon wedges and fresh coriander" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBeh5QeKTxUWLz10Eil_oMeLD_PiZUqiHf4H13R_b4JebSauZqUDekdDWFeuJquz3nz5miI61k4AuKK1uhxIUdIe0x-9q3LcQgQUkP59E_RotHH2pEtnk_rmpWEYQHPHqztS4JMCfW72cwSTfxsGDOUocC-0OpIi4IhvSekg9FyBp-0z53xO6X0uDrAdlV83V455U4MljVbD1qkQ6Vp5mhWoDKs6CVoqJlFZp9dRyVzt2CvPGUngB3hKQ"/>
+</div>
+<button class="bg-surface-container text-on-surface hover:bg-primary hover:text-on-primary w-9 h-9 rounded-xl flex items-center justify-center transition-colors shadow-xs">
+<span class="material-symbols-outlined text-[20px]">add</span>
+</button>
+</div>
+</div>
+<!-- BBQ Item 2: Beef Seekh Kabab -->
+<div class="bg-surface-container-lowest p-space-md rounded-2xl shadow-sm hover:shadow-md transition-shadow flex gap-space-md justify-between items-start">
+<div class="flex-1">
+<div class="flex items-center gap-1.5">
+<span class="text-xs">🔥</span>
+<h4 class="font-title-md text-title-md font-bold text-on-surface">Beef Seekh Kabab (4 Pcs)</h4>
+</div>
+<p class="font-body-md text-body-md text-on-surface-variant mt-1 line-clamp-2">
+                  Minced beef laced with tallow, fried onions, roasted cumin, and red chili flakes grilled on iron skewers.
+                </p>
+<div class="flex items-center gap-3 mt-3">
+<span class="font-headline-sm text-headline-sm font-bold text-primary">Rs. 780</span>
+<span class="text-[11px] font-semibold bg-error-container text-on-error-container px-2 py-0.5 rounded">Desi Spicy</span>
+</div>
+</div>
+<div class="flex flex-col items-end gap-3 flex-shrink-0">
+<div class="w-20 h-20 rounded-xl overflow-hidden bg-surface-container">
+<img class="w-full h-full object-cover" data-alt="Traditional Pakistani Beef Seekh Kabab 4 pieces juicy and charcoal-cooked on metal skewers resting over sliced red onions and fresh green chutney" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAgbxylirlb-GrDJlhbOnmSyPKa46H4FPNV6SmJ382QYzUkscfmdxnqvOQ32mDvelHsXWqIDB-CFPISMS6wqrqmwlQP847_1O6-UhM1mLlrlJgo1NgjqBPaHjDdnHYLoDMpLuqdXhBMEgHUsagFkF65_x5W_LfYbbXc8_xUiV5YRVqAgv1oqg6cx09Ot-BKajnFbmoK5iZ92JVmc1nnjkcVwbnGgjM4irHnegLgP7t-_cAXbEcWaYs4Cg"/>
+</div>
+<button class="bg-surface-container text-on-surface hover:bg-primary hover:text-on-primary w-9 h-9 rounded-xl flex items-center justify-center transition-colors shadow-xs">
+<span class="material-symbols-outlined text-[20px]">add</span>
+</button>
+</div>
+</div>
+<!-- BBQ Item 3: Kasturi Boti -->
+<div class="bg-surface-container-lowest p-space-md rounded-2xl shadow-sm hover:shadow-md transition-shadow flex gap-space-md justify-between items-start">
+<div class="flex-1">
+<div class="flex items-center gap-1.5">
+<span class="text-xs">✨</span>
+<h4 class="font-title-md text-title-md font-bold text-on-surface">Kasturi Boti Special</h4>
+</div>
+<p class="font-body-md text-body-md text-on-surface-variant mt-1 line-clamp-2">
+                  Boneless chicken infused with roasted kasuri methi, crushed garlic, and saffron egg-wash crusting.
+                </p>
+<div class="flex items-center gap-3 mt-3">
+<span class="font-headline-sm text-headline-sm font-bold text-primary">Rs. 920</span>
+<span class="text-[11px] font-semibold bg-secondary-fixed text-on-secondary-fixed px-2 py-0.5 rounded">Signature</span>
+</div>
+</div>
+<div class="flex flex-col items-end gap-3 flex-shrink-0">
+<div class="w-20 h-20 rounded-xl overflow-hidden bg-surface-container">
+<img class="w-full h-full object-cover" data-alt="Charcoal roasted spicy chicken kasturi boti with golden yellow marinade and fresh herbs served on sizzling hot plate" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBUYXSwXhdR7T8qATIUtWaMppHU02b4dPcvP2BtV_KD0WRkZ4v5N_EZqRgKFcHr5bHtwNK_iyrV5JuiI9Yz042fAvCXXNYDAcAQdh9-T7UjVvKY4kQ00GukszYHbI8E5cWPemG4gshwWNuyVdaT33UCi7fALzmTnEoKDuXYPSeGI-BFihM6iEyQ4Dwmqt81BFNFGKb_e_rpAqe3ctkgUiazO_0X9R-7QUY8hu8himla5JTSGRYgKkDtrw"/>
+</div>
+<button class="bg-surface-container text-on-surface hover:bg-primary hover:text-on-primary w-9 h-9 rounded-xl flex items-center justify-center transition-colors shadow-xs">
+<span class="material-symbols-outlined text-[20px]">add</span>
+</button>
+</div>
+</div>
+<!-- BBQ Item 4: Royal Platter -->
+<div class="bg-surface-container-lowest p-space-md rounded-2xl shadow-sm hover:shadow-md transition-shadow flex gap-space-md justify-between items-start">
+<div class="flex-1">
+<div class="flex items-center gap-1.5">
+<span class="text-xs">👑</span>
+<h4 class="font-title-md text-title-md font-bold text-on-surface">Hadiq Royal BBQ Platter</h4>
+</div>
+<p class="font-body-md text-body-md text-on-surface-variant mt-1 line-clamp-2">
+                  Grand mix: 4 Seekh Kababs, 6 Malai Boti, 4 Kasturi Boti, 2 Grilled Chops, served over scented Afghani Pulao.
+                </p>
+<div class="flex items-center gap-3 mt-3">
+<span class="font-headline-sm text-headline-sm font-bold text-primary">Rs. 2,650</span>
+<span class="text-[11px] font-semibold bg-surface-container text-tertiary px-2 py-0.5 rounded">Serves 3-4</span>
+</div>
+</div>
+<div class="flex flex-col items-end gap-3 flex-shrink-0">
+<div class="w-20 h-20 rounded-xl overflow-hidden bg-surface-container">
+<img class="w-full h-full object-cover" data-alt="Grand Pakistani BBQ mixed platter with seekh kababs, malai tikka, grilled lamb chops over aromatic basmati rice platter with dips and salads" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDhz31rLc3Qb7yHA_O2nkM_3VSR6Kli-pgxm6ATRWe74ZsaiDM27JIvb_91FJ9Drz24qvokAP6_BexDCHmdubQKUL3BvGL0jYEVR2Xcn-2IqH097bDjaFIHQ8uu-LG9s1ZkaoK9MbPvvPxc3rBlQtvaPsxNARC_EXslHgAj3aL4GJjDfkalDzIFho9iSKsI569KVCepQOAJpz0iNzvE_ERGuzJnrkr4OWYMrHrVi5PCwZAGSA6ucgP7Gw"/>
+</div>
+<button class="bg-surface-container text-on-surface hover:bg-primary hover:text-on-primary w-9 h-9 rounded-xl flex items-center justify-center transition-colors shadow-xs">
+<span class="material-symbols-outlined text-[20px]">add</span>
+</button>
+</div>
+</div>
+</div>
+</section>
+<!-- SECTION 2: Authentic Shinwari & Desi Karahi -->
+<section class="scroll-mt-40" id="karahi-section">
+<div class="flex items-center justify-between mb-space-sm">
+<div>
+<div class="flex items-center gap-2">
+<span class="text-label-sm font-label-sm uppercase tracking-wider text-primary font-bold">Wok Cooked to Order</span>
+</div>
+<h2 class="font-headline-lg text-headline-lg text-on-surface font-bold tracking-tight">Authentic Shinwari &amp; Desi Karahi</h2>
+</div>
+<span class="text-label-sm font-label-sm text-tertiary">30 Mins Live Preparation</span>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-space-md mt-space-sm">
+<!-- Karahi Item 1 -->
+<div class="bg-surface-container-lowest p-space-md rounded-2xl shadow-sm hover:shadow-md transition-all flex flex-col justify-between">
+<div>
+<div class="flex items-center justify-between">
+<h4 class="font-title-md text-title-md font-bold text-on-surface">Chicken White Karahi</h4>
+<span class="bg-surface-container text-tertiary text-label-sm font-label-sm px-2 py-0.5 rounded">Mild Creamy</span>
+</div>
+<p class="font-body-md text-body-md text-on-surface-variant mt-2">
+                  Prepared with fresh heavy cream, whipped yogurt, crushed green chilies, and white pepper. Absolutely zero red spices.
+                </p>
+</div>
+<div class="mt-4 pt-3 bg-surface-container-low p-2.5 rounded-xl flex items-center justify-between">
+<div class="flex flex-col">
+<span class="text-[11px] text-tertiary uppercase font-bold">Half kg / 1.0 kg</span>
+<span class="font-title-md text-title-md font-bold text-primary">Rs. 980 <span class="text-xs text-tertiary font-normal">| Rs. 1,850</span></span>
+</div>
+<button class="bg-primary text-on-primary px-3 py-1.5 rounded-lg text-label-md font-label-md flex items-center gap-1 shadow-sm hover:bg-primary-container transition-all">
+                  + Add
+                </button>
+</div>
+</div>
+<!-- Karahi Item 2 -->
+<div class="bg-surface-container-lowest p-space-md rounded-2xl shadow-sm hover:shadow-md transition-all flex flex-col justify-between">
+<div>
+<div class="flex items-center justify-between">
+<h4 class="font-title-md text-title-md font-bold text-on-surface">Chicken Desi Butter Karahi</h4>
+<span class="bg-error-container text-on-error-container text-label-sm font-label-sm px-2 py-0.5 rounded">Traditional Lahori</span>
+</div>
+<p class="font-body-md text-body-md text-on-surface-variant mt-2">
+                  Thick gravy cooked in pure yellow butter, garlic, roasted coriander seeds, and sliced serrano peppers with smokey coal dum.
+                </p>
+</div>
+<div class="mt-4 pt-3 bg-surface-container-low p-2.5 rounded-xl flex items-center justify-between">
+<div class="flex flex-col">
+<span class="text-[11px] text-tertiary uppercase font-bold">Half kg / 1.0 kg</span>
+<span class="font-title-md text-title-md font-bold text-primary">Rs. 1,050 <span class="text-xs text-tertiary font-normal">| Rs. 1,950</span></span>
+</div>
+<button class="bg-primary text-on-primary px-3 py-1.5 rounded-lg text-label-md font-label-md flex items-center gap-1 shadow-sm hover:bg-primary-container transition-all">
+                  + Add
+                </button>
+</div>
+</div>
+<!-- Karahi Item 3: Tawa Fry Brain -->
+<div class="bg-surface-container-lowest p-space-md rounded-2xl shadow-sm hover:shadow-md transition-all flex flex-col justify-between">
+<div>
+<div class="flex items-center justify-between">
+<h4 class="font-title-md text-title-md font-bold text-on-surface">Brain Masala Tawa Fry</h4>
+<span class="bg-secondary-fixed text-on-secondary-fixed text-label-sm font-label-sm px-2 py-0.5 rounded">Specialty</span>
+</div>
+<p class="font-body-md text-body-md text-on-surface-variant mt-2">
+                  Fresh lamb brain delicately tossed on high-heat iron tawa with ginger, butter, crushed tomatoes, and fragrant kasuri methi.
+                </p>
+</div>
+<div class="mt-4 pt-3 bg-surface-container-low p-2.5 rounded-xl flex items-center justify-between">
+<div class="flex flex-col">
+<span class="text-[11px] text-tertiary uppercase font-bold">Single Portion</span>
+<span class="font-title-md text-title-md font-bold text-primary">Rs. 850</span>
+</div>
+<button class="bg-primary text-on-primary px-3 py-1.5 rounded-lg text-label-md font-label-md flex items-center gap-1 shadow-sm hover:bg-primary-container transition-all">
+                  + Add
+                </button>
+</div>
+</div>
+<!-- Karahi Item 4: Mutton Shinwari Full -->
+<div class="bg-surface-container-lowest p-space-md rounded-2xl shadow-sm hover:shadow-md transition-all flex flex-col justify-between">
+<div>
+<div class="flex items-center justify-between">
+<h4 class="font-title-md text-title-md font-bold text-on-surface">Mutton Shinwari Namkeen</h4>
+<span class="bg-surface-container-highest text-on-surface text-label-sm font-label-sm px-2 py-0.5 rounded">Salt &amp; Fat Only</span>
+</div>
+<p class="font-body-md text-body-md text-on-surface-variant mt-2">
+                  Peshawari tribal specialty: Fresh goat meat rendered in its own animal tallow with sea salt and garlic water. Pure meat depth.
+                </p>
+</div>
+<div class="mt-4 pt-3 bg-surface-container-low p-2.5 rounded-xl flex items-center justify-between">
+<div class="flex flex-col">
+<span class="text-[11px] text-tertiary uppercase font-bold">1.0 kg Platter</span>
+<span class="font-title-md text-title-md font-bold text-primary">Rs. 3,100</span>
+</div>
+<button class="bg-primary text-on-primary px-3 py-1.5 rounded-lg text-label-md font-label-md flex items-center gap-1 shadow-sm hover:bg-primary-container transition-all">
+                  + Add
+                </button>
+</div>
+</div>
+</div>
+</section>
+<!-- SECTION 3: Smash Burgers & Crispy Broast -->
+<section class="scroll-mt-40" id="burgers-section">
+<div class="flex items-center justify-between mb-space-sm">
+<div>
+<div class="flex items-center gap-2">
+<span class="text-label-sm font-label-sm uppercase tracking-wider text-secondary font-bold">Fast-Casual Gourmet</span>
+</div>
+<h2 class="font-headline-lg text-headline-lg text-on-surface font-bold tracking-tight">Smash Burgers &amp; Crispy Broast</h2>
+</div>
+<span class="text-label-sm font-label-sm text-tertiary">Fresh Cut Skin-on Fries</span>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-space-md mt-space-sm">
+<!-- Burger Item 1 -->
+<div class="bg-surface-container-lowest p-space-md rounded-2xl shadow-sm hover:shadow-md transition-shadow flex gap-space-md justify-between items-start">
+<div class="flex-1">
+<h4 class="font-title-md text-title-md font-bold text-on-surface">Crispy Zinger Classic</h4>
+<p class="font-body-md text-body-md text-on-surface-variant mt-1 line-clamp-2">
+                  Double hand-breaded chicken thigh with 11 secret herbs, pickled dill relish, creamy garlic mayo on buttered sesame bun.
+                </p>
+<div class="flex items-center gap-3 mt-3">
+<span class="font-headline-sm text-headline-sm font-bold text-primary">Rs. 620</span>
+<span class="text-[11px] font-semibold bg-surface-container text-tertiary px-2 py-0.5 rounded">+ Fries &amp; Dip</span>
+</div>
+</div>
+<div class="flex flex-col items-end gap-3 flex-shrink-0">
+<div class="w-20 h-20 rounded-xl overflow-hidden bg-surface-container">
+<img class="w-full h-full object-cover" data-alt="Golden crisp fried zinger chicken burger dripping with creamy mayonnaise and crisp lettuce on toasted sesame bun" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDUZylh7XS0E_kcK0IjNQmpdAtj976L39iqTFp4BxqeVzv8qs6eyl3B_yAhVxmetnQNniVBBKMA_rD_CvaPfQuhUiF0kzSKcgq6BA7raUzuhQs0SKeRg-f7j7X9rY1SSYt0sgbRTo9ZW8qJmTcJ1LnkmbysxEuQ1Qqn275gBK-5zrzNBgOEdshq4NkZ5yXdZehpb9a9CMXvJceLYDlHNtpY1U-4oeDOrMsYEkdiLbyJnTXRv7Nu9NEwGA"/>
+</div>
+<button class="bg-surface-container text-on-surface hover:bg-primary hover:text-on-primary w-9 h-9 rounded-xl flex items-center justify-center transition-colors shadow-xs">
+<span class="material-symbols-outlined text-[20px]">add</span>
+</button>
+</div>
+</div>
+<!-- Burger Item 2: Fiery Peri Broast -->
+<div class="bg-surface-container-lowest p-space-md rounded-2xl shadow-sm hover:shadow-md transition-shadow flex gap-space-md justify-between items-start">
+<div class="flex-1">
+<h4 class="font-title-md text-title-md font-bold text-on-surface">Fiery Peri Broast (Quarter)</h4>
+<p class="font-body-md text-body-md text-on-surface-variant mt-1 line-clamp-2">
+                  Pressure fried quarter chicken, ultra juicy inside and crunchy skin dusted in African bird's eye chili masala.
+                </p>
+<div class="flex items-center gap-3 mt-3">
+<span class="font-headline-sm text-headline-sm font-bold text-primary">Rs. 590</span>
+<span class="text-[11px] font-semibold bg-error-container text-on-error-container px-2 py-0.5 rounded">Spicy Crunch</span>
+</div>
+</div>
+<div class="flex flex-col items-end gap-3 flex-shrink-0">
+<div class="w-20 h-20 rounded-xl overflow-hidden bg-surface-container">
+<img class="w-full h-full object-cover" data-alt="Traditional Pakistani golden fried chicken broast quarter piece with fries and garlic sauce on wooden tray" src="https://lh3.googleusercontent.com/aida-public/AB6AXuArb9azQ1dCOKBtgdfnLOORPGSyPQNeBAfQ7pW7ea522UFWXZJplVl7cfBPNdeyQhz9RqPvvUOClnEj1Iqk2BNgH68sfM3osypKGV6yMNCREFp-BOSa6IPpIOg_VxgkjZ_eJ7bJuwER-Nt1eLhvXVFyXB3dO6L1HGDijzctMqvdWvhl8T7y6Gt44_O4me_yEKbNZN-K1keTqCQj7T41ye4bwSgSYduFM3LtFWevFfZrjm4UqMfXkEj5rA"/>
+</div>
+<button class="bg-surface-container text-on-surface hover:bg-primary hover:text-on-primary w-9 h-9 rounded-xl flex items-center justify-center transition-colors shadow-xs">
+<span class="material-symbols-outlined text-[20px]">add</span>
+</button>
+</div>
+</div>
+<!-- Burger Item 3: Loaded Fries -->
+<div class="bg-surface-container-lowest p-space-md rounded-2xl shadow-sm hover:shadow-md transition-shadow flex gap-space-md justify-between items-start">
+<div class="flex-1">
+<h4 class="font-title-md text-title-md font-bold text-on-surface">Loaded Peri-Peri Fries Box</h4>
+<p class="font-body-md text-body-md text-on-surface-variant mt-1 line-clamp-2">
+                  Crispy skin-on fries topped with smoky melted cheese blend, diced fried chicken chunks, and fiery chipotle drizzle.
+                </p>
+<div class="flex items-center gap-3 mt-3">
+<span class="font-headline-sm text-headline-sm font-bold text-primary">Rs. 450</span>
+<span class="text-[11px] font-semibold bg-surface-container text-tertiary px-2 py-0.5 rounded">Snack Box</span>
+</div>
+</div>
+<div class="flex flex-col items-end gap-3 flex-shrink-0">
+<div class="w-20 h-20 rounded-xl overflow-hidden bg-surface-container">
+<img class="w-full h-full object-cover" data-alt="Loaded hot french fries topped with melted yellow cheddar, jalapeños, crispy fried chicken chunks and chili mayo sauce" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDlZFtSjmwY67OZ7Nr9DxJUI6ORW2dpkeoTmixDHRA45NiR8lp4HWGraRPAzW85LXtnuoGsGoi57rpW4rmu0h2LPPOrfzgZN3SJU2Isf_A6kxqyxE5LueHXtfzyVlqPYfZnQ_ne1Ru2lPt1qJIpz3F990JEsmRwPVxG9tsajKhXdlwC4qaPgWHDyCjwB0XwbTNbAR-1erv_NcBNqf2LsyU-DxE2kmVy8a5fzgjotvcv_DTm0FYniNiGSA"/>
+</div>
+<button class="bg-surface-container text-on-surface hover:bg-primary hover:text-on-primary w-9 h-9 rounded-xl flex items-center justify-center transition-colors shadow-xs">
+<span class="material-symbols-outlined text-[20px]">add</span>
+</button>
+</div>
+</div>
+<!-- Burger Item 4: Wings -->
+<div class="bg-surface-container-lowest p-space-md rounded-2xl shadow-sm hover:shadow-md transition-shadow flex gap-space-md justify-between items-start">
+<div class="flex-1">
+<h4 class="font-title-md text-title-md font-bold text-on-surface">Crispy Glazed Wings (6 Pcs)</h4>
+<p class="font-body-md text-body-md text-on-surface-variant mt-1 line-clamp-2">
+                  Jumbo crispy wings tossed in your choice of Sweet Smoky Honey BBQ or Spicy Ghost Buffalo glaze.
+                </p>
+<div class="flex items-center gap-3 mt-3">
+<span class="font-headline-sm text-headline-sm font-bold text-primary">Rs. 480</span>
+<span class="text-[11px] font-semibold bg-surface-container text-tertiary px-2 py-0.5 rounded">6 Pieces</span>
+</div>
+</div>
+<div class="flex flex-col items-end gap-3 flex-shrink-0">
+<div class="w-20 h-20 rounded-xl overflow-hidden bg-surface-container">
+<img class="w-full h-full object-cover" data-alt="Glazed spicy chicken buffalo wings with sesame seeds and ranch dip on craft paper" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAik1pfbxWoUJwAYQyG7fmOGpwE9Btqm9aGkK5kiDoW4oG7zbi4ijURe0J_kJFQQ-58TE33v1hakQJG4HVzo2FckfTd3_Q1yIKFSzM6eaI-9IBcV7Ogedi8Ml2ofeNFsmAe0fQx7OJzwydDs3OW4-BfA1MY9ggBQS7krJgp3Smhw7u0RIDfrvE-MEjwkq7hTj6u1fDC2h07eSxeu0ztckjNSbDuD0wfHTNIfyEX0OG07RsO0dGNuU9Q0Q"/>
+</div>
+<button class="bg-surface-container text-on-surface hover:bg-primary hover:text-on-primary w-9 h-9 rounded-xl flex items-center justify-center transition-colors shadow-xs">
+<span class="material-symbols-outlined text-[20px]">add</span>
+</button>
+</div>
+</div>
+</div>
+</section>
+<!-- SECTION 4: Clay Oven Tandoor & Breads -->
+<section class="scroll-mt-40" id="tandoor-section">
+<div class="flex items-center justify-between mb-space-sm">
+<div>
+<div class="flex items-center gap-2">
+<span class="text-label-sm font-label-sm uppercase tracking-wider text-secondary font-bold">Baked Fresh on Order</span>
+</div>
+<h2 class="font-headline-lg text-headline-lg text-on-surface font-bold tracking-tight">Hot Clay Tandoor &amp; Naans</h2>
+</div>
+<span class="text-label-sm font-label-sm text-tertiary">Piping Hot Till 3:30 AM</span>
+</div>
+<div class="grid grid-cols-2 sm:grid-cols-3 gap-space-sm mt-space-sm">
+<!-- Bread 1 -->
+<div class="bg-surface-container-lowest p-space-sm rounded-xl shadow-xs flex flex-col justify-between">
+<div>
+<span class="text-label-sm font-label-sm text-secondary font-bold">BEST WITH BBQ</span>
+<h4 class="font-title-md text-title-md font-bold text-on-surface mt-1">Roghani Naan</h4>
+<p class="text-body-md font-body-md text-on-surface-variant text-xs mt-1">Butter-brushed with white sesame seeds</p>
+</div>
+<div class="flex items-center justify-between mt-3 pt-2 bg-surface-container-low px-2 py-1.5 rounded-lg">
+<span class="font-bold text-on-surface">Rs. 90</span>
+<button class="bg-surface-container text-on-surface hover:bg-primary hover:text-on-primary w-7 h-7 rounded-md flex items-center justify-center transition-colors">
+<span class="material-symbols-outlined text-[16px]">add</span>
+</button>
+</div>
+</div>
+<!-- Bread 2 -->
+<div class="bg-surface-container-lowest p-space-sm rounded-xl shadow-xs flex flex-col justify-between">
+<div>
+<span class="text-label-sm font-label-sm text-primary font-bold">CHEF'S FAVORITE</span>
+<h4 class="font-title-md text-title-md font-bold text-on-surface mt-1">Garlic Butter Naan</h4>
+<p class="text-body-md font-body-md text-on-surface-variant text-xs mt-1">Minced garlic, fresh coriander &amp; desi butter</p>
+</div>
+<div class="flex items-center justify-between mt-3 pt-2 bg-surface-container-low px-2 py-1.5 rounded-lg">
+<span class="font-bold text-on-surface">Rs. 110</span>
+<button class="bg-surface-container text-on-surface hover:bg-primary hover:text-on-primary w-7 h-7 rounded-md flex items-center justify-center transition-colors">
+<span class="material-symbols-outlined text-[16px]">add</span>
+</button>
+</div>
+</div>
+<!-- Bread 3 -->
+<div class="bg-surface-container-lowest p-space-sm rounded-xl shadow-xs flex flex-col justify-between">
+<div>
+<span class="text-label-sm font-label-sm text-tertiary font-bold">TRADITIONAL</span>
+<h4 class="font-title-md text-title-md font-bold text-on-surface mt-1">Kalonji Naan</h4>
+<p class="text-body-md font-body-md text-on-surface-variant text-xs mt-1">Topped with aromatic black nigella seeds</p>
+</div>
+<div class="flex items-center justify-between mt-3 pt-2 bg-surface-container-low px-2 py-1.5 rounded-lg">
+<span class="font-bold text-on-surface">Rs. 100</span>
+<button class="bg-surface-container text-on-surface hover:bg-primary hover:text-on-primary w-7 h-7 rounded-md flex items-center justify-center transition-colors">
+<span class="material-symbols-outlined text-[16px]">add</span>
+</button>
+</div>
+</div>
+<!-- Bread 4 -->
+<div class="bg-surface-container-lowest p-space-sm rounded-xl shadow-xs flex flex-col justify-between">
+<div>
+<span class="text-label-sm font-label-sm text-tertiary font-bold">CLASSIC</span>
+<h4 class="font-title-md text-title-md font-bold text-on-surface mt-1">Khameeri Roti</h4>
+<p class="text-body-md font-body-md text-on-surface-variant text-xs mt-1">Puffy leavened whole-wheat flatbread</p>
+</div>
+<div class="flex items-center justify-between mt-3 pt-2 bg-surface-container-low px-2 py-1.5 rounded-lg">
+<span class="font-bold text-on-surface">Rs. 35</span>
+<button class="bg-surface-container text-on-surface hover:bg-primary hover:text-on-primary w-7 h-7 rounded-md flex items-center justify-center transition-colors">
+<span class="material-symbols-outlined text-[16px]">add</span>
+</button>
+</div>
+</div>
+<!-- Bread 5 -->
+<div class="bg-surface-container-lowest p-space-sm rounded-xl shadow-xs flex flex-col justify-between">
+<div>
+<span class="text-label-sm font-label-sm text-secondary font-bold">MELTY STUFFED</span>
+<h4 class="font-title-md text-title-md font-bold text-on-surface mt-1">Cheese Naan</h4>
+<p class="text-body-md font-body-md text-on-surface-variant text-xs mt-1">Stuffed with mozzarella &amp; cheddar core</p>
+</div>
+<div class="flex items-center justify-between mt-3 pt-2 bg-surface-container-low px-2 py-1.5 rounded-lg">
+<span class="font-bold text-on-surface">Rs. 320</span>
+<button class="bg-surface-container text-on-surface hover:bg-primary hover:text-on-primary w-7 h-7 rounded-md flex items-center justify-center transition-colors">
+<span class="material-symbols-outlined text-[16px]">add</span>
+</button>
+</div>
+</div>
+<!-- Bread 6 -->
+<div class="bg-surface-container-lowest p-space-sm rounded-xl shadow-xs flex flex-col justify-between">
+<div>
+<span class="text-label-sm font-label-sm text-primary font-bold">SPICY STUFFED</span>
+<h4 class="font-title-md text-title-md font-bold text-on-surface mt-1">Aloo Keema Naan</h4>
+<p class="text-body-md font-body-md text-on-surface-variant text-xs mt-1">Spiced beef mince and potato filling</p>
+</div>
+<div class="flex items-center justify-between mt-3 pt-2 bg-surface-container-low px-2 py-1.5 rounded-lg">
+<span class="font-bold text-on-surface">Rs. 290</span>
+<button class="bg-surface-container text-on-surface hover:bg-primary hover:text-on-primary w-7 h-7 rounded-md flex items-center justify-center transition-colors">
+<span class="material-symbols-outlined text-[16px]">add</span>
+</button>
+</div>
+</div>
+</div>
+</section>
+<!-- SECTION 5: Family Dawat Deals & Combos -->
+<section class="scroll-mt-40 mb-space-xl" id="deals-section">
+<div class="flex items-center justify-between mb-space-sm">
+<div>
+<div class="flex items-center gap-2">
+<span class="text-label-sm font-label-sm uppercase tracking-wider text-primary font-bold">Value Bundles</span>
+</div>
+<h2 class="font-headline-lg text-headline-lg text-on-surface font-bold tracking-tight">Family Dawat Deals &amp; Combos</h2>
+</div>
+<span class="bg-secondary-container text-on-secondary-container px-2.5 py-1 rounded text-label-sm font-label-sm font-bold">SAVE UP TO 25%</span>
+</div>
+<!-- Deal Card 1: Sultan Feast -->
+<div class="bg-surface-container-lowest rounded-2xl overflow-hidden shadow-sm hover:shadow-lg transition-all p-space-lg flex flex-col md:flex-row gap-space-md justify-between items-center bg-gradient-to-r from-surface-container-lowest via-surface-container-lowest to-secondary-fixed/20">
+<div class="flex flex-col gap-2">
+<div class="flex items-center gap-2">
+<span class="bg-primary text-on-primary px-2.5 py-0.5 rounded text-label-sm font-label-sm font-bold uppercase tracking-wider">MEGA DAWAT</span>
+<span class="text-label-sm font-label-sm text-tertiary">Ideal for 5 to 6 Persons</span>
+</div>
+<h3 class="font-headline-md text-headline-md font-bold text-on-surface">Sultan Family Feast Deal</h3>
+<p class="font-body-md text-body-md text-on-surface-variant max-w-xl">
+                1.0 kg Mutton Shinwari Karahi, 4 Beef Seekh Kababs, 2 Hadiq Smash Burgers, 6 Roghani Sesame Naans, Large Zeera Raita, Fresh Mint Salad, and 1.5L Chilled Soft Drink.
+              </p>
+<div class="flex items-center gap-3 mt-1">
+<span class="line-through text-on-surface-variant/70 text-body-md">Rs. 4,450</span>
+<span class="font-headline-md text-headline-md font-bold text-primary">Rs. 3,499</span>
+<span class="text-label-sm font-label-sm bg-secondary-container text-on-secondary-container px-2 py-0.5 rounded font-bold">You Save Rs. 951</span>
+</div>
+</div>
+<div class="flex flex-col items-center md:items-end gap-2 w-full md:w-auto">
+<button class="w-full md:w-auto bg-primary text-on-primary px-6 py-3 rounded-xl font-label-lg text-label-lg flex items-center justify-center gap-2 shadow-md hover:bg-primary-container active:scale-95 transition-all">
+<span class="material-symbols-outlined text-[20px]">shopping_bag</span> Order Sultan Feast
+              </button>
+<span class="text-label-sm font-label-sm text-tertiary">Freshly packed in insulated thermal box</span>
+</div>
+</div>
+<!-- Deal Card 2: Late Night Crave Combo -->
+<div class="mt-space-md bg-surface-container-lowest rounded-2xl overflow-hidden shadow-sm hover:shadow-lg transition-all p-space-md flex flex-col md:flex-row gap-space-md justify-between items-center">
+<div class="flex flex-col gap-1.5">
+<div class="flex items-center gap-2">
+<span class="bg-inverse-surface text-inverse-on-surface px-2.5 py-0.5 rounded text-label-sm font-label-sm font-bold uppercase tracking-wider">MIDNIGHT CRAVE</span>
+<span class="text-label-sm font-label-sm text-tertiary">Available 11:00 PM – 3:30 AM</span>
+</div>
+<h3 class="font-title-md text-title-md font-bold text-on-surface">Late Night Duo Crave Combo</h3>
+<p class="font-body-md text-body-md text-on-surface-variant">
+                1x Double Smash Burger + 1x Crispy Zinger + 1x Large Loaded Peri Fries + 2x Cans (345ml).
+              </p>
+<div class="flex items-center gap-3 mt-1">
+<span class="line-through text-on-surface-variant/70 text-body-md">Rs. 1,520</span>
+<span class="font-headline-sm text-headline-sm font-bold text-primary">Rs. 1,199</span>
+</div>
+</div>
+<button class="w-full md:w-auto bg-surface-container text-on-surface hover:bg-primary hover:text-on-primary px-5 py-2.5 rounded-xl font-label-md text-label-md flex items-center justify-center gap-1.5 transition-all">
+<span class="material-symbols-outlined text-[18px]">add</span> Add Combo
+            </button>
+</div>
+</section>
+</div>
+<!-- Right Column: Sticky Cart Drawer & Live Summary (28-30%) -->
+<div class="lg:col-span-4 sticky top-36 flex flex-col gap-space-md">
+<!-- Cart Card -->
+<div class="bg-surface-container-lowest rounded-2xl p-space-md shadow-xl flex flex-col">
+<!-- Card Header -->
+<div class="flex items-center justify-between pb-space-sm border-b border-surface-container-high">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-primary text-[22px]">shopping_basket</span>
+<h3 class="font-headline-sm text-headline-sm font-bold text-on-surface">Your Feast</h3>
+</div>
+<span class="bg-surface-container text-on-surface font-label-sm text-label-sm px-2.5 py-1 rounded-full font-bold">3 Items</span>
+</div>
+<!-- Destination Bar -->
+<div class="bg-surface-container-low p-2.5 rounded-xl mt-space-sm flex items-center justify-between">
+<div class="flex items-center gap-2 min-w-0">
+<span class="material-symbols-outlined text-secondary text-[20px] flex-shrink-0">pin_drop</span>
+<div class="truncate">
+<span class="text-[11px] text-tertiary block leading-none uppercase font-bold">Deliver To</span>
+<span class="font-label-md text-label-md font-bold text-on-surface truncate">Shalimar Town, Lahore</span>
+</div>
+</div>
+<button class="text-primary font-label-sm text-label-sm font-bold hover:underline flex-shrink-0">Change</button>
+</div>
+<!-- Time Estimate Notice -->
+<div class="mt-2 flex items-center gap-1.5 text-label-sm font-label-sm text-tertiary px-1">
+<span class="material-symbols-outlined text-[15px] text-secondary">timelapse</span>
+<span>Estimated Kitchen &amp; Rider Time: <strong>30-40 mins</strong></span>
+</div>
+<!-- Items Scroll Area -->
+<div class="flex flex-col divide-y divide-surface-container-high mt-space-sm max-h-[300px] overflow-y-auto pr-1">
+<!-- Cart Item 1 -->
+<div class="py-3 flex items-start justify-between gap-2">
+<div class="flex-1">
+<div class="font-label-md text-label-md font-bold text-on-surface">Mutton Shinwari Karahi</div>
+<div class="text-[12px] text-tertiary">Portion: Half kg (Fresh Desi Ghee)</div>
+<div class="text-label-md font-label-md font-bold text-primary mt-1">Rs. 1,650</div>
+</div>
+<div class="flex items-center bg-surface-container rounded-lg p-1 gap-2 flex-shrink-0">
+<button class="w-6 h-6 flex items-center justify-center text-on-surface hover:bg-surface-container-highest rounded text-sm font-bold">−</button>
+<span class="text-label-md font-label-md font-bold w-4 text-center">1</span>
+<button class="w-6 h-6 flex items-center justify-center text-on-surface hover:bg-surface-container-highest rounded text-sm font-bold">+</button>
+</div>
+</div>
+<!-- Cart Item 2 -->
+<div class="py-3 flex items-start justify-between gap-2">
+<div class="flex-1">
+<div class="font-label-md text-label-md font-bold text-on-surface">Hot Roghani Naan</div>
+<div class="text-[12px] text-tertiary">Extra Sesame &amp; Butter (2x Rs. 90)</div>
+<div class="text-label-md font-label-md font-bold text-primary mt-1">Rs. 180</div>
+</div>
+<div class="flex items-center bg-surface-container rounded-lg p-1 gap-2 flex-shrink-0">
+<button class="w-6 h-6 flex items-center justify-center text-on-surface hover:bg-surface-container-highest rounded text-sm font-bold">−</button>
+<span class="text-label-md font-label-md font-bold w-4 text-center">2</span>
+<button class="w-6 h-6 flex items-center justify-center text-on-surface hover:bg-surface-container-highest rounded text-sm font-bold">+</button>
+</div>
+</div>
+<!-- Cart Item 3 -->
+<div class="py-3 flex items-start justify-between gap-2">
+<div class="flex-1">
+<div class="font-label-md text-label-md font-bold text-on-surface">Hadiq Monster Smash</div>
+<div class="text-[12px] text-tertiary">Double Beef • Brioche • Smoky Sauce</div>
+<div class="text-label-md font-label-md font-bold text-primary mt-1">Rs. 790</div>
+</div>
+<div class="flex items-center bg-surface-container rounded-lg p-1 gap-2 flex-shrink-0">
+<button class="w-6 h-6 flex items-center justify-center text-on-surface hover:bg-surface-container-highest rounded text-sm font-bold">−</button>
+<span class="text-label-md font-label-md font-bold w-4 text-center">1</span>
+<button class="w-6 h-6 flex items-center justify-center text-on-surface hover:bg-surface-container-highest rounded text-sm font-bold">+</button>
+</div>
+</div>
+</div>
+<!-- Cooking Note Field -->
+<div class="mt-3">
+<input class="w-full text-[12px] bg-surface-container-low border-0 rounded-xl px-3 py-2 text-on-surface placeholder:text-tertiary focus:ring-1 focus:ring-primary" placeholder="Special instructions? (e.g. less green chilies, crisp naan)" type="text"/>
+</div>
+<!-- Bill Calculation -->
+<div class="mt-4 pt-3 border-t border-surface-container-high flex flex-col gap-1.5 text-body-md font-body-md text-on-surface-variant text-sm">
+<div class="flex justify-between">
+<span>Item Subtotal</span>
+<span class="font-semibold text-on-surface">Rs. 2,620</span>
+</div>
+<div class="flex justify-between">
+<span class="flex items-center gap-1">Standard Delivery Fee <span class="material-symbols-outlined text-[14px] text-tertiary">help_outline</span></span>
+<span class="font-semibold text-on-surface">Rs. 100</span>
+</div>
+<div class="flex justify-between">
+<span>Thermal Food Box &amp; Seal</span>
+<span class="font-semibold text-on-surface">Rs. 50</span>
+</div>
+<div class="flex justify-between pt-2 border-t border-surface-container-high text-on-surface font-title-md text-title-md font-bold">
+<span>Total Bill</span>
+<span class="text-primary font-headline-sm text-headline-sm">Rs. 2,770</span>
+</div>
+</div>
+<!-- CTAs -->
+<div class="mt-space-md flex flex-col gap-2">
+<button class="w-full bg-primary text-on-primary py-3.5 rounded-xl font-label-lg text-label-lg font-bold flex items-center justify-center gap-2 shadow-[0_4px_16px_rgba(160,0,15,0.35)] hover:bg-primary-container active:scale-98 transition-all">
+<span>Proceed to Checkout</span>
+<span class="material-symbols-outlined text-[20px]">arrow_forward</span>
+</button>
+<a class="w-full bg-surface-container text-on-surface hover:bg-surface-container-high py-2.5 rounded-xl font-label-md text-label-md font-bold flex items-center justify-center gap-2 transition-colors" href="https://wa.me/923001234567?text=Hello%20Hadiq%20Foods!%20I%20want%20to%20order:%201x%20Mutton%20Shinwari,%202x%20Roghani%20Naan,%201x%20Monster%20Smash." target="_blank">
+<span class="material-symbols-outlined text-[18px] text-[#25D366]">chat</span>
+<span>Quick WhatsApp Order</span>
+</a>
+</div>
+<!-- Guarantee Badge -->
+<div class="mt-3 flex items-center justify-center gap-1 text-[11px] font-semibold text-tertiary">
+<span class="material-symbols-outlined text-[14px] text-secondary">verified_user</span>
+<span>Food arrives hot or immediate replacement guaranteed</span>
+</div>
+</div>
+<!-- Live Kitchen Status Widget -->
+<div class="bg-surface-container-low p-space-sm rounded-2xl flex items-center gap-3">
+<div class="relative flex items-center justify-center">
+<span class="relative flex h-3 w-3">
+<span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-secondary opacity-75"></span>
+<span class="relative inline-flex rounded-full h-3 w-3 bg-secondary"></span>
+</span>
+</div>
+<div class="text-body-md font-body-md text-xs">
+<span class="font-bold text-on-surface block">Charcoal Sigri &amp; Tandoor Active</span>
+<span class="text-tertiary">Kitchen taking orders for live dining &amp; home delivery till 3:30 AM</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Interactive Menu Filter Logic -->
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const searchInput = document.getElementById('menuSearchInput');
+      const menuCards = document.querySelectorAll('section [class*="bg-surface-container-lowest"]');
+
+      if (searchInput) {
+        searchInput.addEventListener('input', (e) => {
+          const query = e.target.value.toLowerCase().trim();
+
+          menuCards.forEach(card => {
+            const title = card.querySelector('h3, h4')?.textContent.toLowerCase() || '';
+            const desc = card.querySelector('p')?.textContent.toLowerCase() || '';
+            
+            if (title.includes(query) || desc.includes(query) || query === '') {
+              card.style.display = '';
+            } else {
+              card.style.display = 'none';
+            }
+          });
+        });
+      }
+
+      // Smooth scroll adjustment for category nav
+      const navLinks = document.querySelectorAll('#categoryNav a');
+      navLinks.forEach(link => {
+        link.addEventListener('click', (e) => {
+          navLinks.forEach(l => {
+            l.classList.remove('bg-inverse-surface', 'text-inverse-on-surface');
+            l.classList.add('bg-surface-container', 'text-on-surface');
+          });
+          link.classList.remove('bg-surface-container', 'text-on-surface');
+          link.classList.add('bg-inverse-surface', 'text-inverse-on-surface');
+        });
+      });
+    });
+  </script>
+</div></main><footer class="w-full bg-[#1A1A1E] text-stone-300 mt-space-xl border-t border-stone-800"><div class="max-w-7xl mx-auto px-4 md:px-margin py-space-xl"><div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-space-lg"><div class="flex flex-col gap-space-sm"><div class="flex items-center gap-2"><img alt="Hadiq Foods Logo" class="h-9 w-auto brightness-200" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDXGqz4pVbs_wdjkC-pqhVEh2nKWqgIUMvQZWF3w_pMfxVm0TeM3TrJl6QilxuDAlywM79QWmDNRr8VS6GFL39E2Utcvd1KunsUvUP5o-nBb4owpmx_qBiMZZkZ3Fvp-ugXBaAlBPKg1OcAfA7r6ojP8fNVTaSnBPTprxxjIrsgurxyuB22Uagd6G47RCQJtlbb6BlXco7axuJkh6k42qE8mM0DTcV-zem3wyKL2Fj5cKONKgs_AIJpug"/><span class="font-headline-md text-headline-md tracking-tight text-white font-bold">Hadiq<span class="text-secondary-container">Foods</span></span></div><p class="text-body-sm font-body-sm text-stone-400 leading-relaxed">Lahore’s premier multi-cuisine destination serving authentic Charcoal BBQ, Shinwari Karahi, and modern gourmet Smash Burgers under one roof.</p><div class="flex items-center gap-space-xs bg-stone-900 border border-stone-800 p-space-xs rounded-xl shadow-sm"><span class="material-symbols-outlined text-secondary-container text-[20px]">star</span><div class="text-body-sm"><span class="font-bold text-white">4.6 ★ Rated</span> on Google Maps Lahore<div class="text-stone-400 text-[11px]">Over 1,400+ satisfied diners</div></div></div></div><div class="flex flex-col gap-2"><span class="font-title-md text-white font-bold">Menu Specialties</span><a class="text-body-sm text-stone-400 hover:text-white transition-colors" data-path="full-menu" href="#karahi-section">Shinwari Mutton &amp; Chicken Karahi</a><a class="text-body-sm text-stone-400 hover:text-white transition-colors" data-path="bbq-karahi" href="#bbq-section">Live Charcoal Seekh Kababs &amp; Malai Boti</a><a class="text-body-sm text-stone-400 hover:text-white transition-colors" data-path="fast-food" href="#burgers-section">Double Beef &amp; Zinger Smash Burgers</a><a class="text-body-sm text-stone-400 hover:text-white transition-colors" data-path="full-menu" href="#tandoor-section">Tandoori Roghani &amp; Garlic Naan</a><a class="text-body-sm text-stone-400 hover:text-white transition-colors" data-path="combos-deals" href="#deals-section">Late Night Midnight Combos</a></div><div class="flex flex-col gap-2"><span class="font-title-md text-white font-bold">Timings &amp; Service</span><div class="text-body-sm text-stone-400 flex flex-col gap-1"><div><strong class="text-white">Dine-in &amp; Family Floor:</strong> 12:00 PM – 2:00 AM</div><div><strong class="text-white">Takeaway &amp; Midnight Delivery:</strong> 12:00 PM – 3:30 AM</div></div><div class="mt-2 text-body-sm"><strong class="text-white block text-xs uppercase tracking-wider">Fast Delivery Zones:</strong><span class="text-stone-400 text-[11px] leading-tight block mt-0.5">Shalimar Town, Baghbanpura, Mughalpura, Dharampura, Cantt, Gulberg, &amp; DHA Lahore</span></div></div><div class="flex flex-col gap-2"><span class="font-title-md text-white font-bold">Branch &amp; Inquiries</span><div class="text-body-sm text-stone-400 flex flex-col gap-1"><div>Main Boulevard, Shalimar Town / Baghbanpura, Lahore</div><div>Call Dispatch: +92 321 4455667</div><div>WhatsApp Orders: +92 300 1234567</div></div><div class="flex items-center gap-2 mt-2"><span class="p-2 rounded-lg bg-stone-900 border border-stone-800 text-stone-300 hover:text-white cursor-pointer"><span class="material-symbols-outlined text-[18px]">chat</span></span><span class="p-2 rounded-lg bg-stone-900 border border-stone-800 text-stone-300 hover:text-white cursor-pointer"><span class="material-symbols-outlined text-[18px]">share</span></span><span class="p-2 rounded-lg bg-stone-900 border border-stone-800 text-stone-300 hover:text-white cursor-pointer"><span class="material-symbols-outlined text-[18px]">mail</span></span></div><div class="mt-2 inline-flex items-center gap-1.5 text-[11px] font-bold text-secondary-container"><span class="material-symbols-outlined text-[15px]">verified</span> 100% HAND SLAUGHTERED HALAL MEAT</div></div></div><div class="mt-space-lg pt-4 border-t border-stone-800 flex flex-col sm:flex-row items-center justify-between text-body-sm text-stone-400 gap-2 text-xs"><div>© 2025 Hadiq Foods Pvt Ltd. Authentic Desi BBQ, Karahi &amp; Fast Food. Lahore, Pakistan.</div><div class="flex items-center gap-4"><a class="hover:text-white transition-colors" href="#">Privacy Policy</a><a class="hover:text-white transition-colors" href="#">Terms of Service</a><a class="hover:text-white transition-colors" href="#">FBR POS Integrated</a></div></div></div></footer></body></html>
