@@ -19,6 +19,7 @@
   function save() {
     try { localStorage.setItem(KEY, JSON.stringify(cart)); } catch (e) {}
     render();
+    document.dispatchEvent(new CustomEvent('hadiq:cart'));
   }
   function rs(n) { return 'Rs. ' + Number(n).toLocaleString('en-PK'); }
   function esc(s) {
@@ -64,6 +65,7 @@
   var form = { name: '', phone: '', type: 'Delivery', address: '', notes: '' };
 
   function open() {
+    render(); // pick up address/notes entered elsewhere on the page
     overlay.style.display = 'block';
     panel.style.transform = 'none';
     panel.style.visibility = 'visible';
@@ -198,6 +200,19 @@
     el.className = 'inline-flex items-center gap-1 text-[11px] font-bold px-2 py-0.5 rounded-full ' +
       (open ? 'text-emerald-700 bg-emerald-50' : 'text-stone-600 bg-stone-100');
   });
+
+  // Used by pages with their own cart summary (menu.html's "Your Feast" panel).
+  window.HadiqCart = {
+    items: function () { return cart.slice(); },
+    add: add,
+    setQty: setQty,
+    count: count,
+    total: total,
+    form: form,
+    open: open,
+    rs: rs,
+    esc: esc
+  };
 
   render();
   if (location.hash === '#cart') open();
