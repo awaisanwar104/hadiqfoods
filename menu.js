@@ -86,14 +86,14 @@
     if (featured.length) {
       html += '<section class="scroll-mt-56" id="featured-section">' +
         sectionHead('Most Loved', 'Bestsellers', '') +
-        '<div class="grid grid-cols-1 md:grid-cols-2 gap-space-md mt-space-sm">' + featured.map(featuredCard).join('') + '</div></section>';
+        '<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-space-md mt-space-sm">' + featured.map(featuredCard).join('') + '</div></section>';
     }
     categories.forEach(function (c) {
       var list = shown.filter(function (d) { return d.category === c.name && !d.featured; });
       if (!list.length) return;
       html += '<section class="scroll-mt-56" id="' + slug(c.name) + '">' +
         sectionHead(c.subtitle, (c.emoji ? c.emoji + ' ' : '') + esc(c.name), list.length + (list.length === 1 ? ' item' : ' items')) +
-        '<div class="grid grid-cols-1 md:grid-cols-2 gap-space-md mt-space-sm">' + list.map(dishCard).join('') + '</div></section>';
+        '<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-space-md mt-space-sm">' + list.map(dishCard).join('') + '</div></section>';
     });
     root.innerHTML = html || '<div class="py-16 text-center text-on-surface-variant">No dishes on the menu right now. Please check back soon.</div>';
   }
@@ -137,53 +137,6 @@
       Cart.add(d.name, priceOf(d), d.options.length ? d.options[d.selected].label : undefined);
     }
   });
-
-  // ---------- "Your Feast" panel ----------
-  var items = document.querySelector('[data-feast-items]');
-  var countEl = document.querySelector('[data-feast-count]');
-  var subEl = document.querySelector('[data-feast-subtotal]');
-  var totalEl = document.querySelector('[data-feast-total]');
-  var fees = document.querySelectorAll('[data-feast-fee]');
-  var addrEl = document.querySelector('[data-feast-address]');
-  var note = document.querySelector('[data-feast-note]');
-
-  // Delivery charges aren't fixed, so they are confirmed on WhatsApp rather than added here.
-  if (fees[0]) fees[0].textContent = 'Confirmed on WhatsApp';
-  if (fees[1]) fees[1].parentElement.style.display = 'none';
-
-  function renderFeast() {
-    var lines = Cart.items();
-    var n = Cart.count();
-    countEl.textContent = n + (n === 1 ? ' Item' : ' Items');
-    subEl.textContent = rs(Cart.total());
-    totalEl.textContent = rs(Cart.total());
-    if (!lines.length) {
-      items.innerHTML = '<div class="py-6 text-center text-body-md text-on-surface-variant">Your cart is empty — tap <strong>Add</strong> on any dish.</div>';
-      return;
-    }
-    items.innerHTML = lines.map(function (l) {
-      var id = esc(l.id);
-      return '<div class="py-3 flex items-start justify-between gap-2"><div class="flex-1">' +
-        '<div class="font-label-md text-label-md font-bold text-on-surface">' + id + '</div>' +
-        '<div class="text-[12px] text-tertiary">' + l.qty + ' × ' + rs(l.price) + '</div>' +
-        '<div class="text-label-md font-label-md font-bold text-primary mt-1">' + rs(l.qty * l.price) + '</div></div>' +
-        '<div class="flex items-center bg-surface-container rounded-lg p-1 gap-2 flex-shrink-0">' +
-        '<button type="button" data-qty="-1" data-id="' + id + '" aria-label="Remove one" class="w-6 h-6 flex items-center justify-center text-on-surface hover:bg-surface-container-highest rounded text-sm font-bold">−</button>' +
-        '<span class="text-label-md font-label-md font-bold w-4 text-center">' + l.qty + '</span>' +
-        '<button type="button" data-qty="1" data-id="' + id + '" aria-label="Add one" class="w-6 h-6 flex items-center justify-center text-on-surface hover:bg-surface-container-highest rounded text-sm font-bold">+</button>' +
-        '</div></div>';
-    }).join('');
-  }
-  function renderAddress() { addrEl.textContent = Cart.form.address || 'Add your address'; }
-
-  document.querySelector('[data-feast-change]').addEventListener('click', function () {
-    var a = window.prompt('Delivery address', Cart.form.address);
-    if (a !== null) { Cart.form.address = a.trim(); Cart.form.type = 'Delivery'; renderAddress(); }
-  });
-  note.addEventListener('input', function () { Cart.form.notes = note.value; });
-  document.addEventListener('hadiq:cart', renderFeast);
-  renderFeast();
-  renderAddress();
 
   // ---------- Go ----------
   var jumped = false;

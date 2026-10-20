@@ -5,6 +5,7 @@
 //               <option value="Small" data-price="650"> sets the price; [data-price-label]
 //               in the same card shows the selected price.
 // Cart links:   any a[href="#cart"] or [data-open-cart] opens the cart; [data-cart-count] shows the count.
+// Cart bar:     a floating "View order" bar shows at the bottom of every page while the cart has items.
 // Open status:  [data-open-status] shows Open now / Closed for 11 AM – 4 AM Lahore time.
 (function () {
   var WHATSAPP = '923000341185';
@@ -37,6 +38,7 @@
     else cart.push({ id: id, price: price, qty: 1 });
     save();
     toast(id + ' added to cart');
+    bump();
   }
   function setQty(id, qty) {
     cart = cart.map(function (l) { return l.id === id ? { id: l.id, price: l.price, qty: qty } : l; })
@@ -55,13 +57,22 @@
       '</div>' +
       '<div data-cart-body class="flex-1 overflow-y-auto px-5 py-4"></div>' +
     '</aside>' +
-    '<div data-cart-toast class="fixed bottom-5 left-1/2 -translate-x-1/2 z-[70] bg-on-surface text-surface px-4 py-2.5 rounded-xl shadow-lg text-body-md" style="display:none"></div>';
+    '<div data-cart-toast class="fixed left-1/2 -translate-x-1/2 z-[70] bg-on-surface text-surface px-4 py-2.5 rounded-xl shadow-lg text-body-md" style="display:none;bottom:calc(92px + env(safe-area-inset-bottom))"></div>' +
+    '<button type="button" data-open-cart data-cart-bar aria-label="View your order" class="fixed z-[55] bg-primary text-on-primary rounded-2xl px-4 py-3 items-center justify-between gap-3 shadow-[0_10px_30px_rgba(160,0,15,0.4)] hover:bg-primary-container transition-colors" style="display:none;left:16px;right:16px;margin:0 auto;max-width:28rem;bottom:calc(16px + env(safe-area-inset-bottom))">' +
+      '<span class="flex items-center gap-3">' +
+        '<span class="relative flex"><span class="material-symbols-outlined text-[26px]">shopping_bag</span>' +
+        '<span data-cart-count class="absolute -top-1.5 -right-2 min-w-[18px] h-[18px] px-1 rounded-full bg-secondary-container text-on-secondary-container text-[11px] font-bold flex items-center justify-center">0</span></span>' +
+        '<span class="text-left leading-tight"><span data-bar-items class="block font-label-lg text-label-lg"></span><span data-bar-total class="block text-xs opacity-90"></span></span>' +
+      '</span>' +
+      '<span class="flex items-center gap-1 font-label-lg text-label-lg">View order <span class="material-symbols-outlined text-[20px]">arrow_forward</span></span>' +
+    '</button>';
   document.body.appendChild(drawer);
 
   var overlay = drawer.querySelector('[data-cart-overlay]');
   var panel = drawer.querySelector('[data-cart-panel]');
   var body = drawer.querySelector('[data-cart-body]');
   var toastEl = drawer.querySelector('[data-cart-toast]');
+  var bar = drawer.querySelector('[data-cart-bar]');
   var form = { name: '', phone: '', type: 'Delivery', address: '', notes: '' };
 
   function open() {
@@ -78,6 +89,15 @@
     document.body.style.overflow = '';
   }
 
+  // Small "bump" on the cart bar and header badge so customers see the dish was added.
+  function bump() {
+    if (!bar.animate) return;
+    bar.animate([{ transform: 'scale(1)' }, { transform: 'scale(1.06)' }, { transform: 'scale(1)' }], { duration: 380, easing: 'ease-out' });
+    document.querySelectorAll('header [data-cart-count]').forEach(function (el) {
+      el.animate([{ transform: 'scale(1)' }, { transform: 'scale(1.5)' }, { transform: 'scale(1)' }], { duration: 380, easing: 'ease-out' });
+    });
+  }
+
   var toastTimer;
   function toast(msg) {
     toastEl.textContent = msg;
@@ -89,7 +109,12 @@
   var field = 'w-full px-3 py-2.5 bg-surface-container-low rounded-lg text-on-surface text-body-md border-0 focus:ring-2 focus:ring-primary';
 
   function render() {
-    document.querySelectorAll('[data-cart-count]').forEach(function (el) { el.textContent = count(); });
+    var n = count();
+    document.querySelectorAll('[data-cart-count]').forEach(function (el) { el.textContent = n; });
+    bar.style.display = n ? 'flex' : 'none';
+    bar.querySelector('[data-bar-items]').textContent = n + (n === 1 ? ' item' : ' items');
+    bar.querySelector('[data-bar-total]').textContent = rs(total());
+    document.body.style.paddingBottom = n ? '88px' : ''; // keep the footer clear of the bar
 
     if (!cart.length) {
       body.innerHTML =
