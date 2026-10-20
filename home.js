@@ -1,7 +1,6 @@
-// Home page "Customer Favourites": four dishes from the Google Sheet (menu-source.js).
-// Picks one Bestseller per category (in the Categories tab order); if fewer than four
-// categories have one, the rest are filled with Featured dishes, then other dishes,
-// still preferring categories not shown yet.
+// Home page "Customer Favourites": up to four dishes from the Google Sheet (menu-source.js).
+// Only dishes whose Badge is "Bestseller" are shown: the first one in each category,
+// in the Categories tab order.
 (function () {
   var COUNT = 4;
   var grid = document.getElementById('homeFavourites');
@@ -12,26 +11,13 @@
   function isBestseller(d) { return /best\s*-?\s*seller/i.test(d.badge); }
 
   function pick(dishes, categories) {
-    var picks = [], used = {};
-    function take(d) { picks.push(d); used[d.category] = true; }
-    function fill(test, oncePerCategory) {
-      categories.forEach(function (c) {
-        if (picks.length >= COUNT || (oncePerCategory && used[c.name])) return;
-        var d = dishes.find(function (x) { return x.category === c.name && picks.indexOf(x) === -1 && test(x); });
-        if (d) take(d);
-      });
-    }
-    fill(isBestseller, true);
-    fill(function (d) { return d.featured; }, true);
-    fill(function () { return true; }, true);
-    while (picks.length < COUNT) {
-      var before = picks.length;
-      fill(isBestseller, false);
-      fill(function (d) { return d.featured; }, false);
-      fill(function () { return true; }, false);
-      if (picks.length === before) break;
-    }
-    return picks.slice(0, COUNT);
+    var picks = [];
+    categories.forEach(function (c) {
+      if (picks.length >= COUNT) return;
+      var d = dishes.find(function (x) { return x.category === c.name && isBestseller(x); });
+      if (d) picks.push(d);
+    });
+    return picks;
   }
 
   var STICKERS = ['bg-primary text-on-primary', 'bg-secondary-container text-on-secondary-container'];
@@ -62,12 +48,13 @@
   }
 
   window.HadiqMenu.load(function (menu) {
-    if (!menu || !menu.dishes.length) {
+    var picks = menu ? pick(menu.dishes, menu.categories) : [];
+    if (!picks.length) {
       grid.innerHTML = '<div class="col-span-full py-10 text-center text-on-surface-variant">See all our dishes on the <a class="text-primary font-bold" href="menu.html">menu</a>.</div>';
       return;
     }
     var emojis = {};
     menu.categories.forEach(function (c) { emojis[c.name] = c.emoji; });
-    grid.innerHTML = pick(menu.dishes, menu.categories).map(function (d, i) { return card(d, i, emojis[d.category] || ''); }).join('');
+    grid.innerHTML = picks.map(function (d, i) { return card(d, i, emojis[d.category] || ''); }).join('');
   });
 })();
