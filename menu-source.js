@@ -1,8 +1,8 @@
 // Reads the restaurant's menu from its Google Sheet; shared by the menu page and the home page.
 //
-// Sheet layout (tabs read by name): "Menu" with columns Category, Item, Price, Half, Full, Note,
-// Photo URL, Show, Bestseller, plus "Pizza Sizes" (Size, Price, Extra Topping) used by every
-// pizza. The older layout ("Menu" with Name/Options/Badge… plus a "Categories" tab) still works.
+// Sheet layout (tabs read by name): "Menu" with columns Category, Item, Price, Half, Full, Options,
+// Note, Photo URL, Show, Bestseller, plus "Options" (Option Set, then Option 1/Price 1 … Option 6/Price 6).
+// Earlier layouts still work: "Menu" + "Pizza Sizes", and the original "Menu" (Name/Badge…) + "Categories".
 // HadiqMenu.load(callback) calls back with { dishes, categories }: first with the menu this
 // browser saw last time (if any) so pages render instantly, then again with the fresh sheet.
 // menu-data.json is the fallback when neither is available; callback(null) if nothing loads.
@@ -46,10 +46,11 @@
     return fetchText(sheetUrl('Menu')).then(function (text) {
       var menu = parseCsv(text);
       if (!menu.length || !('Item' in menu[0] || 'Name' in menu[0])) throw new Error('unexpected sheet format');
-      var simple = 'Item' in menu[0];
-      return fetchText(sheetUrl(simple ? 'Pizza Sizes' : 'Categories')).then(function (t2) {
+      var key = !('Item' in menu[0]) ? 'Categories' : 'Options' in menu[0] ? 'Options' : 'PizzaSizes';
+      var tab = { Categories: 'Categories', Options: 'Options', PizzaSizes: 'Pizza Sizes' }[key];
+      return fetchText(sheetUrl(tab)).then(function (t2) {
         var data = { Menu: menu };
-        data[simple ? 'PizzaSizes' : 'Categories'] = parseCsv(t2);
+        data[key] = parseCsv(t2);
         try { localStorage.setItem(CACHE_KEY, JSON.stringify(data)); } catch (e) {}
         return data;
       });
@@ -93,23 +94,47 @@
     return e ? e[1] : '🍽️';
   }
 
-  // Current sheet layout: sections follow row order; Half/Full columns and the Pizza Sizes tab give options.
+  // Option sets by name, e.g. { 'Pizza': [{label:'Small 8"', price:700}, ...] }.
+  function optionSets(data) {
+    var sets = {};
+    (data.Options || []).forEach(function (r) {
+      var name = String(r['Option Set'] || '').trim();
+      if (!name) return;
+      var list = [];
+      for (var i = 1; i <= 6; i++) {
+        var label = String(r['Option ' + i] || '').trim(), price = num(r['Price ' + i]);
+        if (label && price) list.push({ label: label, price: price });
+      }
+      if (list.length) sets[name.toLowerCase()] = list;
+    });
+    // "Pizza Sizes" tab from the previous layout: Size, Price, Extra Topping.
+    if (data.PizzaSizes) {
+      var rows = data.PizzaSizes.filter(function (r) { return r.Size; });
+      sets['pizza'] = rows.filter(function (r) { return num(r.Price); }).map(function (r) { return { label: r.Size, price: num(r.Price) }; });
+      sets['pizza extra topping'] = rows.filter(function (r) { return num(r['Extra Topping']); }).map(function (r) { return { label: r.Size, price: num(r['Extra Topping']) }; });
+    }
+    return sets;
+  }
+
+  // Current sheet layout: sections follow row order; Half/Full columns and option sets give choices.
   function prepareSimple(data) {
-    var sizes = (data.PizzaSizes || []).filter(function (r) { return r.Size && num(r.Price); })
-      .map(function (r) { return { label: r.Size, price: num(r.Price), topping: num(r['Extra Topping']) }; });
+    var sets = optionSets(data);
     var categories = [], dishes = [];
     (data.Menu || []).forEach(function (r) {
       if (!r.Item || /^no$/i.test(String(r.Show).trim())) return;
       var category = r.Category || 'Menu';
+      var setName = String(r.Options || '').trim().toLowerCase();
       var options = [];
       if (num(r.Half) && num(r.Full)) options = [{ label: 'Half', price: num(r.Half) }, { label: 'Full', price: num(r.Full) }];
-      else if (!num(r.Price) && /pizza/i.test(category)) options = sizes.map(function (z) { return { label: z.label, price: z.price }; });
+      else if (setName && sets[setName]) options = sets[setName];
+      else if (!num(r.Price) && /pizza/i.test(category) && sets['pizza']) options = sets['pizza'];
+      options = options.map(function (o) { return { label: o.label, price: o.price }; });
       var price = num(r.Price) || (options[0] && options[0].price) || 0;
       if (!price) return;
       if (!categories.some(function (c) { return c.name === category; })) {
-        var toppings = sizes.filter(function (z) { return z.topping; });
-        var subtitle = /pizza/i.test(category) && toppings.length
-          ? 'Extra topping Rs. ' + toppings[0].topping + ' – ' + toppings[toppings.length - 1].topping
+        var toppings = /pizza/i.test(category) && sets['pizza extra topping'] || [];
+        var subtitle = toppings.length
+          ? 'Extra topping Rs. ' + toppings[0].price + ' – ' + toppings[toppings.length - 1].price
           : '';
         categories.push({ name: category, emoji: emojiFor(category), subtitle: subtitle, order: categories.length });
       }
