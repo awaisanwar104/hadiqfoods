@@ -45,7 +45,7 @@
       '</div>' +
       '<div class="p-space-md flex flex-col flex-1 justify-between"><div>' +
         '<div class="flex items-center justify-between gap-3"><h3 class="font-title-md text-title-md font-bold text-on-surface">' + esc(d.name) + '</h3>' +
-        '<span class="text-label-md font-label-md text-primary font-bold whitespace-nowrap" data-price>' + rs(priceOf(d)) + '</span></div>' +
+        '<span class="font-headline-sm text-headline-sm text-primary font-bold whitespace-nowrap" data-price>' + rs(priceOf(d)) + '</span></div>' +
         (d.description ? '<p class="font-body-md text-body-md text-on-surface-variant mt-1.5 leading-relaxed">' + esc(d.description) + '</p>' : '') +
       '</div>' +
       '<div class="mt-space-md pt-space-sm bg-surface-container-low p-2.5 rounded-xl flex items-center justify-between gap-2">' +
@@ -89,7 +89,7 @@
         '<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-space-md mt-space-sm">' + featured.map(featuredCard).join('') + '</div></section>';
     }
     categories.forEach(function (c) {
-      var list = shown.filter(function (d) { return d.category === c.name && !d.featured; });
+      var list = shown.filter(function (d) { return d.category === c.name; });
       if (!list.length) return;
       html += '<section class="scroll-mt-56" id="' + slug(c.name) + '">' +
         sectionHead(c.subtitle, (c.emoji ? c.emoji + ' ' : '') + esc(c.name), list.length + (list.length === 1 ? ' item' : ' items')) +
@@ -105,7 +105,7 @@
     var links = [];
     if (dishes.some(function (d) { return d.featured; })) links.push(['featured-section', '⭐', 'Bestsellers', 0]);
     categories.forEach(function (c) {
-      var n = dishes.filter(function (d) { return d.category === c.name && !d.featured; }).length;
+      var n = dishes.filter(function (d) { return d.category === c.name; }).length;
       if (n) links.push([slug(c.name), c.emoji, c.name, n]);
     });
     nav.innerHTML = links.map(function (l, i) {
@@ -127,10 +127,13 @@
     var opt = e.target.closest('[data-opt]');
     if (opt) {
       d.selected = Number(opt.dataset.opt);
-      card.querySelectorAll('[data-opt]').forEach(function (b) {
-        b.className = 'px-2.5 py-1 rounded-md ' + (Number(b.dataset.opt) === d.selected ? TOGGLE_ON : TOGGLE_OFF);
+      // A Bestseller is shown twice (top section and its own section); keep both cards in step.
+      root.querySelectorAll('[data-dish="' + d.id + '"]').forEach(function (c) {
+        c.querySelectorAll('[data-opt]').forEach(function (b) {
+          b.className = 'px-2.5 py-1 rounded-md ' + (Number(b.dataset.opt) === d.selected ? TOGGLE_ON : TOGGLE_OFF);
+        });
+        c.querySelector('[data-price]').textContent = rs(priceOf(d));
       });
-      card.querySelector('[data-price]').textContent = rs(priceOf(d));
       return;
     }
     if (e.target.closest('[data-add-dish]')) {
