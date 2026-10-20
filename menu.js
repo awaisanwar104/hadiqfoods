@@ -96,14 +96,14 @@
     var html = '';
     var featured = shown.filter(function (d) { return d.featured; });
     if (featured.length && !query && filter < 2) {
-      html += '<section class="scroll-mt-48" id="featured-section">' +
+      html += '<section class="scroll-mt-56" id="featured-section">' +
         sectionHead('Chef\'s Signature', 'Featured Favourites', '') +
         '<div class="grid grid-cols-1 md:grid-cols-2 gap-space-md mt-space-sm">' + featured.map(featuredCard).join('') + '</div></section>';
     }
     categories.forEach(function (c) {
       var list = shown.filter(function (d) { return d.category === c.name && !(d.featured && !query && filter < 2); });
       if (!list.length) return;
-      html += '<section class="scroll-mt-48" id="' + slug(c.name) + '">' +
+      html += '<section class="scroll-mt-56" id="' + slug(c.name) + '">' +
         sectionHead(c.subtitle, (c.emoji ? c.emoji + ' ' : '') + esc(c.name), list.length + (list.length === 1 ? ' item' : ' items')) +
         '<div class="grid grid-cols-1 md:grid-cols-2 gap-space-md mt-space-sm">' + list.map(dishCard).join('') + '</div></section>';
     });
