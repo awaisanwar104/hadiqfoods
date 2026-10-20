@@ -85,7 +85,7 @@
     var featured = shown.filter(function (d) { return d.featured; });
     if (featured.length) {
       html += '<section class="scroll-mt-56" id="featured-section">' +
-        sectionHead('Chef\'s Signature', 'Featured Favourites', '') +
+        sectionHead('Most Loved', 'Bestsellers', '') +
         '<div class="grid grid-cols-1 md:grid-cols-2 gap-space-md mt-space-sm">' + featured.map(featuredCard).join('') + '</div></section>';
     }
     categories.forEach(function (c) {
@@ -103,7 +103,7 @@
   function renderNav() {
     if (!nav) return;
     var links = [];
-    if (dishes.some(function (d) { return d.featured; })) links.push(['featured-section', '⚡', 'Featured', 0]);
+    if (dishes.some(function (d) { return d.featured; })) links.push(['featured-section', '⭐', 'Bestsellers', 0]);
     categories.forEach(function (c) {
       var n = dishes.filter(function (d) { return d.category === c.name && !d.featured; }).length;
       if (n) links.push([slug(c.name), c.emoji, c.name, n]);

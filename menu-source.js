@@ -1,6 +1,8 @@
 // Reads the restaurant's menu from its Google Sheet; shared by the menu page and the home page.
 //
-// The sheet has two tabs, read by name: "Menu" (one row per dish) and "Categories".
+// Sheet layout (tabs read by name): "Menu" with columns Category, Item, Price, Half, Full, Note,
+// Photo URL, Show, Bestseller, plus "Pizza Sizes" (Size, Price, Extra Topping) used by every
+// pizza. The older layout ("Menu" with Name/Options/Badge… plus a "Categories" tab) still works.
 // HadiqMenu.load(callback) calls back with { dishes, categories }: first with the menu this
 // browser saw last time (if any) so pages render instantly, then again with the fresh sheet.
 // menu-data.json is the fallback when neither is available; callback(null) if nothing loads.
@@ -41,13 +43,17 @@
     });
   }
   function fetchSheet() {
-    return Promise.all([fetchText(sheetUrl('Menu')), fetchText(sheetUrl('Categories'))])
-      .then(function (t) {
-        var data = { Menu: parseCsv(t[0]), Categories: parseCsv(t[1]) };
-        if (!data.Menu.length || !('Name' in data.Menu[0])) throw new Error('unexpected sheet format');
+    return fetchText(sheetUrl('Menu')).then(function (text) {
+      var menu = parseCsv(text);
+      if (!menu.length || !('Item' in menu[0] || 'Name' in menu[0])) throw new Error('unexpected sheet format');
+      var simple = 'Item' in menu[0];
+      return fetchText(sheetUrl(simple ? 'Pizza Sizes' : 'Categories')).then(function (t2) {
+        var data = { Menu: menu };
+        data[simple ? 'PizzaSizes' : 'Categories'] = parseCsv(t2);
         try { localStorage.setItem(CACHE_KEY, JSON.stringify(data)); } catch (e) {}
         return data;
       });
+    });
   }
   function cachedMenu() {
     try { return JSON.parse(localStorage.getItem(CACHE_KEY)); } catch (e) { return null; }
@@ -79,7 +85,46 @@
     return url;
   }
 
+  var EMOJI = [[/new/i, '⭐'], [/b\.?b\.?q|tikka|boti/i, '🔥'], [/sajji|broast|chargha/i, '🍗'], [/pizza/i, '🍕'],
+               [/wrap|roll|shawarma/i, '🌯'], [/sandwich/i, '🥪'], [/burger/i, '🍔'], [/handi|karahi|cuisine|mutton|chicken/i, '🥘'],
+               [/rice|biryani|pulao/i, '🍚'], [/tandoor|naan|roti/i, '🫓'], [/salad|raita/i, '🥗'], [/beverage|drink/i, '🥤']];
+  function emojiFor(name) {
+    var e = EMOJI.find(function (x) { return x[0].test(name); });
+    return e ? e[1] : '🍽️';
+  }
+
+  // Current sheet layout: sections follow row order; Half/Full columns and the Pizza Sizes tab give options.
+  function prepareSimple(data) {
+    var sizes = (data.PizzaSizes || []).filter(function (r) { return r.Size && num(r.Price); })
+      .map(function (r) { return { label: r.Size, price: num(r.Price), topping: num(r['Extra Topping']) }; });
+    var categories = [], dishes = [];
+    (data.Menu || []).forEach(function (r) {
+      if (!r.Item || /^no$/i.test(String(r.Show).trim())) return;
+      var category = r.Category || 'Menu';
+      var options = [];
+      if (num(r.Half) && num(r.Full)) options = [{ label: 'Half', price: num(r.Half) }, { label: 'Full', price: num(r.Full) }];
+      else if (!num(r.Price) && /pizza/i.test(category)) options = sizes.map(function (z) { return { label: z.label, price: z.price }; });
+      var price = num(r.Price) || (options[0] && options[0].price) || 0;
+      if (!price) return;
+      if (!categories.some(function (c) { return c.name === category; })) {
+        var toppings = sizes.filter(function (z) { return z.topping; });
+        var subtitle = /pizza/i.test(category) && toppings.length
+          ? 'Extra topping Rs. ' + toppings[0].topping + ' – ' + toppings[toppings.length - 1].topping
+          : '';
+        categories.push({ name: category, emoji: emojiFor(category), subtitle: subtitle, order: categories.length });
+      }
+      var best = yes(r.Bestseller);
+      dishes.push({
+        id: dishes.length, category: category, name: r.Item, description: '', price: price, options: options,
+        oldPrice: 0, badge: best ? 'Bestseller' : '', note: r.Note || '', photo: photo(r['Photo URL']),
+        featured: best, selected: 0
+      });
+    });
+    return { dishes: dishes, categories: categories };
+  }
+
   function prepare(data) {
+    if (data.Menu && data.Menu[0] && 'Item' in data.Menu[0]) return prepareSimple(data);
     var categories = (data.Categories || []).filter(function (c) { return c.Category; })
       .map(function (c, i) {
         return { name: c.Category, emoji: c.Emoji || '', subtitle: c.Subtitle || '', order: num(c.Order) || 100 + i };
