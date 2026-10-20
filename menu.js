@@ -4,12 +4,10 @@
   var Cart = window.HadiqCart;
   var root = document.getElementById('menuRoot');
   var nav = document.getElementById('categoryNav');
-  var search = document.getElementById('menuSearchInput');
   if (!Cart || !root || !window.HadiqMenu) return;
 
   var esc = Cart.esc, rs = Cart.rs;
   var dishes = [], categories = [];
-  var filter = 0, query = '';
 
   var slug = window.HadiqMenu.slug;
 
@@ -81,33 +79,23 @@
       (right ? '<span class="text-label-sm font-label-sm text-tertiary whitespace-nowrap">' + esc(right) + '</span>' : '') + '</div>';
   }
 
-  var SPICY = /spic|hot|chil|karahi|b-?b-?q|tikka|boti|masala/i;
-  var MIDNIGHT = /deal|combo|midnight|late|platter/i;
-  function matches(d) {
-    var text = [d.name, d.description, d.badge, d.note, d.category].join(' ');
-    if (query && text.toLowerCase().indexOf(query) === -1) return false;
-    if (filter === 2) return SPICY.test(text);
-    if (filter === 3) return MIDNIGHT.test(text);
-    return true;
-  }
-
   function render() {
-    var shown = dishes.filter(matches);
+    var shown = dishes;
     var html = '';
     var featured = shown.filter(function (d) { return d.featured; });
-    if (featured.length && !query && filter < 2) {
+    if (featured.length) {
       html += '<section class="scroll-mt-56" id="featured-section">' +
         sectionHead('Chef\'s Signature', 'Featured Favourites', '') +
         '<div class="grid grid-cols-1 md:grid-cols-2 gap-space-md mt-space-sm">' + featured.map(featuredCard).join('') + '</div></section>';
     }
     categories.forEach(function (c) {
-      var list = shown.filter(function (d) { return d.category === c.name && !(d.featured && !query && filter < 2); });
+      var list = shown.filter(function (d) { return d.category === c.name && !d.featured; });
       if (!list.length) return;
       html += '<section class="scroll-mt-56" id="' + slug(c.name) + '">' +
         sectionHead(c.subtitle, (c.emoji ? c.emoji + ' ' : '') + esc(c.name), list.length + (list.length === 1 ? ' item' : ' items')) +
         '<div class="grid grid-cols-1 md:grid-cols-2 gap-space-md mt-space-sm">' + list.map(dishCard).join('') + '</div></section>';
     });
-    root.innerHTML = html || '<div class="py-16 text-center text-on-surface-variant">No dishes match. Try a different search or filter.</div>';
+    root.innerHTML = html || '<div class="py-16 text-center text-on-surface-variant">No dishes on the menu right now. Please check back soon.</div>';
   }
 
   var NAV_ON = 'bg-inverse-surface text-inverse-on-surface px-4 py-2 rounded-xl flex items-center gap-1.5 whitespace-nowrap shadow-sm';
@@ -148,28 +136,6 @@
     if (e.target.closest('[data-add-dish]')) {
       Cart.add(d.name, priceOf(d), d.options.length ? d.options[d.selected].label : undefined);
     }
-  });
-
-  if (search) search.addEventListener('input', function () {
-    query = search.value.toLowerCase().trim();
-    render();
-  });
-
-  // Filter chips: All / Halal show everything; Spicy = BBQ, karahi & spicy dishes; Midnight Deals = deals & combos.
-  var chips = Array.prototype.slice.call(document.querySelectorAll('.sticky button')).slice(0, 4);
-  var CHIP_ON = ['bg-primary', 'text-on-primary', 'shadow-sm'];
-  var CHIP_OFF = ['bg-surface-container', 'text-on-surface', 'hover:bg-surface-container-high'];
-  chips.forEach(function (chip, i) {
-    chip.type = 'button';
-    chip.addEventListener('click', function () {
-      chips.forEach(function (c) {
-        CHIP_ON.forEach(function (k) { c.classList.toggle(k, c === chip); });
-        CHIP_OFF.forEach(function (k) { c.classList.toggle(k, c !== chip); });
-      });
-      filter = i;
-      render();
-      window.scrollTo({ top: root.getBoundingClientRect().top + window.scrollY - 230, behavior: 'smooth' });
-    });
   });
 
   // ---------- "Your Feast" panel ----------
