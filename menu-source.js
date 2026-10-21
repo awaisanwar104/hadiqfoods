@@ -7,7 +7,7 @@
 // browser saw last time (if any) so pages render instantly, then again with the fresh sheet.
 // menu-data.json is the fallback when neither is available; callback(null) if nothing loads.
 (function () {
-  var SHEET_ID = '1PNL5b2Qzfl7m1DxCXHavSzkez84Lcp0oKluZXymbZC4';
+  var SHEET_ID = '10BmHQuViqi7f-Q6w65eJTzvkIythCVtkvOVzHYJH_dw';
   var CACHE_KEY = 'hadiq_menu_v1';
 
   function sheetUrl(tab) {
