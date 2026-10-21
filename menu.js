@@ -146,7 +146,7 @@
   // The skeleton loader in menu.html stays until the first render.
   window.HadiqMenu.load(function (menu) {
     if (!menu) {
-      root.innerHTML = '<div class="py-16 text-center text-on-surface-variant">Sorry, the menu could not be loaded. Please refresh, or order on WhatsApp: <a class="text-primary font-bold" href="https://wa.me/923000341185">0300-0341185</a>.</div>';
+      root.innerHTML = '<div class="py-16 text-center text-on-surface-variant">Sorry, the menu could not be loaded. Please refresh, or order on WhatsApp: <a class="text-primary font-bold" href="https://wa.me/923354000101">0335-4000101</a>.</div>';
       if (nav) nav.innerHTML = '';
       return;
     }

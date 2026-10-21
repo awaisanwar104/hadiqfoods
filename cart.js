@@ -8,7 +8,7 @@
 // Cart bar:     a floating "View order" bar shows at the bottom of every page while the cart has items.
 // Open status:  [data-open-status] shows Open now / Closed for 11 AM – 4 AM Lahore time.
 (function () {
-  var WHATSAPP = '923000341185';
+  var WHATSAPP = '923354000101';
   var KEY = 'hadiq_cart_v1';
   var OPEN_HOUR = 11, CLOSE_HOUR = 4; // 11 AM to 4 AM next day, Pakistan time (UTC+5)
 
