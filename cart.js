@@ -73,7 +73,7 @@
   var body = drawer.querySelector('[data-cart-body]');
   var toastEl = drawer.querySelector('[data-cart-toast]');
   var bar = drawer.querySelector('[data-cart-bar]');
-  var form = { name: '', phone: '', type: 'Delivery', address: '', notes: '' };
+  var form = { name: '', phone: '', address: '', notes: '' };
 
   function open() {
     render(); // pick up address/notes entered elsewhere on the page
@@ -137,21 +137,15 @@
         '</div></li>';
     }).join('');
 
-    var types = ['Delivery', 'Takeaway', 'Dine-in'].map(function (t) {
-      return '<label class="flex-1"><input type="radio" name="hf-type" value="' + t + '" class="peer sr-only"' + (form.type === t ? ' checked' : '') + '>' +
-        '<span class="block text-center px-2 py-2 rounded-lg bg-surface-container text-on-surface text-label-lg font-label-lg cursor-pointer peer-checked:bg-primary peer-checked:text-on-primary">' + t + '</span></label>';
-    }).join('');
-
     body.innerHTML =
       '<ul>' + lines + '</ul>' +
       '<div class="flex items-center justify-between py-4"><span class="font-title-md text-title-md text-on-surface">Total</span>' +
       '<span class="font-headline-sm text-headline-sm font-bold text-primary">' + rs(total()) + '</span></div>' +
       '<p class="text-xs text-on-surface-variant -mt-2 mb-4">Prices as listed on our menu. We confirm your final total (and any delivery charge) on WhatsApp.</p>' +
       '<form data-cart-form class="flex flex-col gap-3">' +
-        '<div class="flex gap-2">' + types + '</div>' +
         '<input class="' + field + '" name="name" required placeholder="Your name" value="' + esc(form.name) + '">' +
         '<input class="' + field + '" name="phone" required type="tel" placeholder="Phone number" value="' + esc(form.phone) + '">' +
-        '<textarea class="' + field + (form.type === 'Delivery' ? '' : ' hidden') + '" name="address" rows="2" placeholder="Delivery address"' + (form.type === 'Delivery' ? ' required' : '') + '>' + esc(form.address) + '</textarea>' +
+        '<textarea class="' + field + '" name="address" rows="2" placeholder="Delivery address" required>' + esc(form.address) + '</textarea>' +
         '<textarea class="' + field + '" name="notes" rows="2" placeholder="Notes (optional)">' + esc(form.notes) + '</textarea>' +
         '<button type="submit" class="w-full py-3 bg-[#25D366] hover:brightness-105 text-white rounded-xl font-label-lg text-label-lg flex items-center justify-center gap-2 shadow-md">' +
           '<span class="material-symbols-outlined text-[20px]">send</span> Send Order on WhatsApp</button>' +
@@ -162,8 +156,7 @@
   function checkout() {
     var msg = ['Hello Hadiq Foods! I would like to place an order:', ''];
     cart.forEach(function (l) { msg.push(l.qty + ' x ' + l.id + ' = ' + rs(l.qty * l.price)); });
-    msg.push('', 'Total: ' + rs(total()), '', 'Order type: ' + form.type, 'Name: ' + form.name, 'Phone: ' + form.phone);
-    if (form.type === 'Delivery') msg.push('Address: ' + form.address);
+    msg.push('', 'Total: ' + rs(total()), '', 'Order type: Delivery', 'Name: ' + form.name, 'Phone: ' + form.phone, 'Address: ' + form.address);
     if (form.notes) msg.push('Notes: ' + form.notes);
     window.open('https://wa.me/' + WHATSAPP + '?text=' + encodeURIComponent(msg.join('\n')), '_blank');
     toast('WhatsApp opened — press send to place your order');
@@ -201,7 +194,6 @@
       var label = sel.closest('[data-item]').querySelector('[data-price-label]');
       if (label) label.textContent = rs(sel.options[sel.selectedIndex].dataset.price);
     }
-    if (e.target.name === 'hf-type') { form.type = e.target.value; render(); }
   });
 
   body.addEventListener('input', function (e) {
